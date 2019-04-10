@@ -1,9 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const config = require('./config/config');
+
+const userRoutes = require('./routes/user');
 
 const app = express();
-const config = require('./config/config');
+
 
 mongoose.connect(`mongodb+srv://vlad:${config.password}@cluster0-kkfup.mongodb.net/test?retryWrites=true`)
 	.then(()=>{
@@ -24,11 +27,6 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 
-app.get('/home', (req,res)=>{
-	res.send({
-		message:"test"
-	});
-});
-
+app.use('/auth', userRoutes);
 
 module.exports = app;
