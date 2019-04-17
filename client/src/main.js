@@ -4,6 +4,8 @@ import VueResource from 'vue-resource';
 import VeeValidate from 'vee-validate';
 import Vuetify from 'vuetify';
 
+import {store} from './store/store';
+
 
 import App from './App.vue'
 import { routes } from './routes';
@@ -22,16 +24,16 @@ const router = new VueRouter({
 
 router.beforeEach((to,from,next) => {
 	if(to.matched.some(record=> record.meta.requiresAuth)){
-		if(localStorage.getItem('jwt') == null){
+		if(localStorage.getItem('access_token') == null){
 			next({
 				path:'/login'
 			})
 		} else {
-			let user = JSON.parse(localStorage.getItem('user'))
+			let user = localStorage.getItem('userId')
 			next()
 		}
 	} else if (to.matched.some(record => record.meta.guest)){
-		if(localStorage.getItem('jwt') == null){
+		if(localStorage.getItem('userId') == null){
 			next()
 		} else {
 			next({name:'dashboard'})
@@ -43,6 +45,7 @@ router.beforeEach((to,from,next) => {
 
 new Vue({
   el: '#app',
+  store,
   router,
   render: h => h(App)
 })

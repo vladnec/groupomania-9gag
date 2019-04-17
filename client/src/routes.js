@@ -2,6 +2,7 @@ import Landing from './components/Landing.vue'
 import Login from './components/auth/Login.vue'
 import Signup from './components/auth/Signup.vue'
 import Dashboard from './components/Dashboard.vue'
+import Home from './components/Home.vue'
 
 export const routes = [
 	{	path: '/',
@@ -12,17 +13,16 @@ export const routes = [
 		path: '/login',
 		name:'login',
 		component: Login,
-		meta:{
-			guest:true
-		}
+	},
+	{
+		path:'/home',
+		name:'home',
+		component:Home,
 	},
 	{ 
 		path: '/signup',
 		name:'/signup',
 		component: Signup,
-		meta: {
-			guest:true
-		}
 	},
 	{
 		path:'/dashboard',

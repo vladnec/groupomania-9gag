@@ -1,5 +1,10 @@
 <template>
 	<form @submit.prevent="signup">
+		<div 
+			v-if="serverError"
+			class="server-error">
+			{{ serverError }}
+		</div>
 		<div class="form-group">
 			<label for="email">Email</label>
 			<input 
@@ -9,7 +14,7 @@
 			class="form-control"
 			autofocus
 			v-validate="'required|email'"  
-			v-model="user.email">
+			v-model="email">
 			<small 
 				v-if="errors.has('email')" 
 				class="field-text is-danger">
@@ -25,7 +30,7 @@
 			name="password" 
 			class="form-control"
 			v-validate="'required'" 
-			v-model="user.password">
+			v-model="password">
 		</div>
 		<div class="form-group">
 			<label for="confirmPassword">Confirm Password</label>
@@ -35,7 +40,7 @@
 			name="confirmPassword" 
 			class="form-control"
 			v-validate="'required'" 
-			v-model="user.confirmPassword">
+			v-model="confirmPassword">
 		</div>
 		<div class="form-group">
 			<label for="firstname">First Name</label>
@@ -45,7 +50,7 @@
 			name="firstname" 
 			class="form-control"
 			v-validate="'required'"
-			v-model="user.firstname">
+			v-model="firstname">
 		</div>
 		<div class="form-group">
 			<label for="lastname">Last Name</label>
@@ -55,12 +60,11 @@
 			name="lastname" 
 			class="form-control"
 			v-validate="'required'"
-			v-model="user.lastname">
+			v-model="lastname">
 		</div>
 		<button 
-			type="submit" 
-			class="btn btn-primary">
-				Sign Up
+			type="submit"
+			class="btn">Sign Up
 		</button>
 	</form>
 </template>
@@ -68,36 +72,83 @@
 <script>
 	import VeeValidate from 'vee-validate';
 	import axios from 'axios';
-	import VueResource from 'vue-resource';
+
 
 	export default {
 		data(){
 			return {
-				user:{
-					firstname:'',
-					lastname:'',
-					email:'',
-					password:'',
-					confirmPassword:'',
-				}
+				firstname:'',
+				lastname:'',
+				email:'',
+				password:'',
+				confirmPassword:'',
+				serverError:'',
 			};
 		},
 		methods:{
 			signup(){
-				if(this.user.password === this.user.confirmPassword && this.user.password.length > 0){
-				this.$http.post('auth/signup', this.user )
-					.then(response => {
-						console.log(response)
-					}, error =>{
-						console.log(error)
-					});
-					this.$router.push('login')
+				this.serverError=''
+				if (this.firstname        !== '' & 
+					this.lastname        !== '' & 
+					this.email           !== '' & 
+					this.confirmPassword !== '' & 
+					this.password        !==''){
+					
+					if(this.confirmPassword === this.password) {
+						this.$store.dispatch('register',{
+							firstname:this.firstname,
+							lastname:this.lastname,
+							email:this.email,
+							password:this.password,
+						})
+						.then(response =>{
+							this.$router.push('home')
+						})
+						.catch(error => {
+							this.serverError = 'Email is already in use!'
+						})
+					} else {
+							this.serverError = 'Passwords do not match'
+						}
 				} else {
-					this.user.password = "",
-					this.user.confirmPassword = ""
-					return alert ("passwords do not match")
+					this.serverError = 'All fields are required!'
 				}
 			}
 		}
 	}
 </script>
+<style>
+	.container {
+		color:#101010;
+		font-size:14px;
+	}
+	.col-centered {
+		margin:0 auto;
+		float:none;
+	}
+	.link {
+		color:inherit;
+	}
+	input{
+		outline:none;
+	}
+	.btn {
+		width:80x;
+		height:30px;
+		border-radius:4px;
+		text-align:center;
+		margin:0 auto;
+		background-color:#fff;
+		border:1px solid #101010;
+		color:#101010;
+		margin:0 auto;
+	}
+	.server-error{
+		margin-bottom:12px;
+		font-size:14px;
+		padding:5px 14px;
+		color:#a94442;
+		background:#f3dede;
+		border-radius:4px;
+	}
+</style>
