@@ -12,7 +12,9 @@ import { routes } from './routes';
 
 Vue.use(VueResource);
 Vue.use(VueRouter);
-Vue.use(VeeValidate);
+Vue.use(VeeValidate, {
+	events:'blur'
+});
 Vue.use(Vuetify);
 
 Vue.http.options.root = 'http://localhost:3000/'
@@ -24,19 +26,13 @@ const router = new VueRouter({
 
 router.beforeEach((to,from,next) => {
 	if(to.matched.some(record=> record.meta.requiresAuth)){
-		if(localStorage.getItem('access_token') == null){
+		if(localStorage.getItem('token') == null){
 			next({
 				path:'/login'
 			})
 		} else {
 			let user = localStorage.getItem('userId')
 			next()
-		}
-	} else if (to.matched.some(record => record.meta.guest)){
-		if(localStorage.getItem('userId') == null){
-			next()
-		} else {
-			next({name:'dashboard'})
 		}
 	} else {
 		next()

@@ -1,10 +1,10 @@
 <template>
-	<div>
-		<div class="container">
+	<div class="row justify-content-center">
+		<div class="col-lg-2">
 			<h4>Welcome to Groupomania</h4>
 			<div class="row">
-				<div class="col-centered">
-					<form  @submit.prevent="login">
+				<div class="col">
+					<form  @submit.prevent="validateBeforeSubmit">
 						<div 
 						v-if="serverError"
 						class="server-error">
@@ -17,9 +17,14 @@
 							name="email" 
 							class="form-control"
 							autofocus
-							v-validate="'required|email'"  
+							v-validate="'required|email'" 
+							:class="{'input-error' : errors.has('email')}" 
 							v-model="email"
 							placeholder="Enter your e-mail here">
+						<small 
+							class="form-error">
+							{{ errors.first('email') }}
+					</small>
 						</div>
 						<div class="form-group">
 							<input 
@@ -27,9 +32,14 @@
 							id="password" 
 							name="password" 
 							class="form-control"
+							:class="{'input-error' : errors.has('password')}"
 							v-validate="'required'" 
 							v-model="password"
 							placeholder="Enter your password here">
+						<small 
+							class="form-error">
+							{{ errors.first('password') }}
+						</small>
 						</div>
 						<button 
 							class="btn btn-primary" 
@@ -38,7 +48,6 @@
 						</button>
 					</form>
 					<h6>Don't have an account? Sign up <router-link class="link" to="/signup">here</router-link></h6>
-					<h6>Forgot password? Click <router-link class="link" to="/forgotPassword">here</router-link></h6>
 				</div>
 			</div>
 		</div>
@@ -47,26 +56,31 @@
 </template>
 <script>
 	import VeeValidate from 'vee-validate';
-	import axios from 'axios';
-	import VueResource from 'vue-resource';
 
 	export default {
 		name:'login',
 		data(){
 			return {
-				email:"",
-				password:"",
+				email:'',
+				password:'',
 				serverError:'',
 			}
 		},
 		methods:{
+			validateBeforeSubmit(){
+				this.$validator.validateAll().then((result)=>{
+					if(result){
+						this.login();
+					}
+				});
+			},
 			login(){
 				this.$store.dispatch('retrieveToken',{
 					email:this.email,
 					password:this.password,
 				})
 				.then(response =>{
-					this.$router.push('home')
+					this.$router.push('/')
 				})
 				.catch(error => {
 					this.serverError = error.response.data.message
@@ -80,37 +94,11 @@
 
 </script>
 <style scoped>
-	.container {
-		color:#101010;
-		font-size:14px;
-	}
-	.col-centered {
-		margin:0 auto;
-		float:none;
+	form {
+		margin:20px 10px;
 	}
 	.link {
-		color:inherit;
+		font-weight: bold;
 	}
-	input{
-		outline:none;
-	}
-	button {
-		width:80x;
-		height:30px;
-		border-radius:4px;
-		text-align:center;
-		margin:0 auto;
-		background-color:#fff;
-		border:1px solid #101010;
-		color:#101010;
-		font-family:'Roboto';
-	}
-	.server-error{
-		margin-bottom:12px;
-		font-size:14px;
-		padding:5px 14px;
-		color:#a94442;
-		background:#f3dede;
-		border-radius:4px;
-	}
+
 </style>

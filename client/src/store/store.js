@@ -8,6 +8,10 @@ export const store = new Vuex.Store({
 	state :{
 		token: localStorage.getItem('token') ||  null,
 		userId: localStorage.getItem('userId') || null,
+		email:'',
+		password:'',
+		firstname:'',
+		lastname:''
 	},
 	mutations:{
 		retrieveToken(state, token){
@@ -22,12 +26,6 @@ export const store = new Vuex.Store({
 			return state.token !== null
 		}
 	},
-	created(){
-		this.$store.dispatch('retrieveName')
-		    .this(response => {
-				console.log(response);
-			})
-	},
 	actions:{
 		register(context,data){
 			return new Promise((resolve,reject)=>{
@@ -38,7 +36,7 @@ export const store = new Vuex.Store({
 					password:data.password
 				})
 					.then(response => {
-						resolve(response)
+					resolve(response)
 					})
 					.catch(error =>{
 						reject(error)
@@ -66,7 +64,7 @@ export const store = new Vuex.Store({
 				.then(response =>{
 					const token = response.data.token
 					const userId = response.data.userId
-					localStorage.setItem('access_token', token)
+					localStorage.setItem('token', token)
 					localStorage.setItem('userId', userId)
 					context.commit('retrieveToken', token)
 					context.commit('retrieveUserId', userId)
