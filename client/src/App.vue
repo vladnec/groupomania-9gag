@@ -1,12 +1,7 @@
 <template>
 	<div id="app">
-	    <div class="container">
-		  	<div class="row justify-content-center">
-		  		<div class="col-lg-12">
-		  			<router-link to="/signup">Signup</router-link>
-		  			<router-link to="/login">Login</router-link>
-		  		</div>
-		  	</div>
+	    	<app-header></app-header>
+	    	<div class="container">
 		  	<hr>
 		  	<div class="row">
 		  		<div class=col-lg-12>
@@ -18,7 +13,13 @@
 </template>
 
 <script>
-
+	import Header from './components/Header.vue'
+	
+	export default {
+		components: {
+			'appHeader': Header
+		}
+	}
 </script>
 
 <style>

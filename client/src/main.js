@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
 import VeeValidate from 'vee-validate';
-import Vuetify from 'vuetify';
+
 
 import {store} from './store/store';
 
@@ -15,7 +15,7 @@ Vue.use(VueRouter);
 Vue.use(VeeValidate, {
 	events:'blur'
 });
-Vue.use(Vuetify);
+
 
 Vue.http.options.root = 'http://localhost:3000/'
 

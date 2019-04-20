@@ -20,5 +20,10 @@ export const routes = [
 		path: '/signup',
 		name:'/signup',
 		component: Signup,
+
+	},
+	{
+		path:'*',
+		redirect:'/'
 	}
 ];

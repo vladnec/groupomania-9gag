@@ -8,10 +8,8 @@ export const store = new Vuex.Store({
 	state :{
 		token: localStorage.getItem('token') ||  null,
 		userId: localStorage.getItem('userId') || null,
-		email:'',
-		password:'',
 		firstname:'',
-		lastname:''
+		lastname:'',
 	},
 	mutations:{
 		retrieveToken(state, token){
@@ -19,11 +17,22 @@ export const store = new Vuex.Store({
 		},
 		retrieveUserId(state,userId){
 			state.userId = userId
+		},
+		retrieveFirstName(state,firstname){
+			state.firstname = firstname
+		},
+		retrieveLastName(state,lastname){
+			state.lastname = lastname
 		}
 	},
 	getters:{
 		loggedIn(state){
 			return state.token !== null
+		},
+		profileName: state => {
+			let firstInitial = state.firstname.split("")[0]
+			let lastInitial = state.lastname.split("")[0]
+			return firstInitial + lastInitial
 		}
 	},
 	actions:{
@@ -47,6 +56,10 @@ export const store = new Vuex.Store({
 			return new Promise((resolve,reject)=>{
 				axios.get('http://localhost:3000/auth/user/' + this.state.userId)
 				.then(response=>{
+					const firstname = response.data.firstname
+					const lastname = response.data.lastname
+					context.commit('retrieveFirstName', firstname)
+					context.commit('retrieveLastName', lastname)
 					resolve(response)
 				})
 				.catch(error => {

@@ -1,25 +1,9 @@
 <template>
-	<h1>Welcome, {{ name }}!</h1>
+	<h1>Welcome to the home page, auth user!</h1>
 </template>
 
 <script>
-	
-	import VeeValidate from 'vee-validate';
-	import axios from 'axios';
-	import VueResource from 'vue-resource';
-
 	export default {
-		name: 'home',
-		data(){
-			return {
-				name:''
-			}
-		},
-		created(){
-			this.$store.dispatch('retrieveName')
-				.then(response => {
-					this.name = response.data.firstname
-				})
-		},
+		name: 'home'
 	}
 </script>

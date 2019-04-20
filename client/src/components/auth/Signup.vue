@@ -101,6 +101,7 @@
 
 
 	export default {
+		name:'Signup',
 		data(){
 			return {
 				firstname:'',
@@ -132,6 +133,7 @@
 						password:this.password
 					})
 					.then(response => {
+						this.$store.dispatch('retrieveName')
 						this.$router.push('/')
 					})	
 				})

@@ -16,7 +16,6 @@
 							id="email" 
 							name="email" 
 							class="form-control"
-							autofocus
 							v-validate="'required|email'" 
 							:class="{'input-error' : errors.has('email')}" 
 							v-model="email"
@@ -80,6 +79,7 @@
 					password:this.password,
 				})
 				.then(response =>{
+					this.$store.dispatch('retrieveName')
 					this.$router.push('/')
 				})
 				.catch(error => {
