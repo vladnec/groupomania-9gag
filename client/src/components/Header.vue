@@ -1,14 +1,14 @@
 <template>
   <nav class="navbar navbar-expand navbar-dark bg-dark">
       <div class="navbar-nav">
-          <router-link :to="{name:'login'}" class="navbar-brand justify-content-center abs" href="#"><img src="../assets/icon-left-font-monochrome-white.png" width="140px" height="24px"></router-link>
+          <router-link :to="{name:'home'}" class="navbar-brand justify-content-center abs" href="#"><img src="../assets/icon-left-font-monochrome-white.png" width="140px" height="24px"></router-link>
       </div>
       <div 
       class="ml-auto"
       v-if="loggedIn">
           <ul class="nav ml-auto">
-              <li class="profile" >
-                  <a href="#">{{ profileName }}</a>
+              <li @click="retrieveProfileId" class="logo profile">
+                  <a>{{ profileName }}</a>
               </li>
               <li class="publish">
                   <a class="publish" href="#">Publish</a>
@@ -29,11 +29,22 @@
       },
       loggedIn(){
         return this.$store.getters.loggedIn
+      },
+      userId(){
+        return this.$store.state.userId
       }
     },
-    created(){
+    mounted(){
       this.$store.dispatch('retrieveName')
     },
+    methods:{
+      retrieveProfileId(){
+        this.$store.dispatch('retrieveName')
+        .then(response => {
+          this.$router.push({name:'user', params: { userData : response}})
+        })
+      }
+    }
   }
 
 </script>
@@ -50,22 +61,14 @@
     text-align: center;
     top:10px;
   }
-    
-  .profile  {
+  .logo {
+    margin-top:10px;
     width:40px;
     height:40px;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    text-align: center;
-    display: flex;
-    margin-top:10px;
-    background-color:#5AAC44;
+    z-index:1;
+    cursor:pointer;
   }
-    
-  a {
-    color:#fafafa;
-  }
+
 
   .publish {
     background-color:#0099FF;
@@ -82,5 +85,9 @@
     height: 40px;
     display: flex;
     align-items: center;
+  }
+    
+  a {
+    color:#fafafa;
   }
 </style>

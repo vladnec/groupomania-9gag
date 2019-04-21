@@ -10,6 +10,8 @@ export const store = new Vuex.Store({
 		userId: localStorage.getItem('userId') || null,
 		firstname:'',
 		lastname:'',
+		email:'',
+		initials:'',
 	},
 	mutations:{
 		retrieveToken(state, token){
@@ -23,6 +25,9 @@ export const store = new Vuex.Store({
 		},
 		retrieveLastName(state,lastname){
 			state.lastname = lastname
+		},
+		retrieveEmail(state,email) {
+			state.email = email
 		}
 	},
 	getters:{
@@ -58,12 +63,13 @@ export const store = new Vuex.Store({
 				.then(response=>{
 					const firstname = response.data.firstname
 					const lastname = response.data.lastname
+					const email = response.data.email
 					context.commit('retrieveFirstName', firstname)
 					context.commit('retrieveLastName', lastname)
+					context.commit('retrieveEmail', email)
 					resolve(response)
 				})
 				.catch(error => {
-					console.log(error)
 					reject(error)
 				})
 			})

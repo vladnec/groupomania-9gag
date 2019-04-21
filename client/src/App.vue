@@ -66,5 +66,18 @@
 	.mail-error{
 		outline:none;
 	}
+	.profile  {
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    text-align: center;
+    display: flex;
+    margin-top:10px;
+    background-color:#5AAC44;
+    width:40px;
+    height:40px;
+    z-index:1;
+
+  }
 
 </style>
