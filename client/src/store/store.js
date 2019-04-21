@@ -28,6 +28,12 @@ export const store = new Vuex.Store({
 		},
 		retrieveEmail(state,email) {
 			state.email = email
+		},
+		destroyToken(state){
+			state.token = null
+		},
+		destroyUserId(state){
+			state.userId = null
 		}
 	},
 	getters:{
@@ -73,6 +79,28 @@ export const store = new Vuex.Store({
 					reject(error)
 				})
 			})
+		},
+		deleteAccount(context){
+			if(context.getters.loggedIn) {
+					return new Promise((resolve, reject) => {
+						axios.delete('http://localhost:3000/auth/user/' + this.state.userId,{
+					})
+					.then(response =>{
+						localStorage.removeItem('token')
+						localStorage.removeItem('userId')
+						context.commit('destroyToken')
+						context.commit('destroyUserId')
+						resolve(response)
+					})
+					.catch(error =>{
+						localStorage.removeItem('token')
+						localStorage.removeItem('userId')
+						context.commit('destroyToken')
+						context.commit('destroyUserId')
+						reject(error)
+					})
+				})		
+			}
 		},
 		retrieveToken(context, credentials){
 			return new Promise((resolve, reject) => {

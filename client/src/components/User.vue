@@ -3,7 +3,7 @@
 		<div class="profile big-circle"> {{ initials }}</div>
 		<h6> {{ data.firstname}} {{ data.lastname}} </h6>
 		<h6 class="margin-email"> {{ data.email }} </h6>
-		<button type="button" class="btn btn-danger">Delete</button>
+		<button type="button" class="btn btn-danger" @click="confirmDelete">Delete</button>
 	</div>
 </template>
 <script>
@@ -16,6 +16,15 @@
 			initials(){
 				return this.$store.getters.profileName
 			}
+		},
+		methods:{
+			confirmDelete(){
+				if(confirm("Are you sure?")){
+					this.$router.push('/user/delete')
+				} else {
+					this.$router.push('/user/')
+				}
+			},
 		}
 	}
 
