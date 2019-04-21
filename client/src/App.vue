@@ -72,12 +72,57 @@
     border-radius: 50%;
     text-align: center;
     display: flex;
-    margin-top:10px;
     background-color:#5AAC44;
-    width:40px;
-    height:40px;
-    z-index:1;
-
   }
+    .publish {
+    background-color:#0099FF;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    display:flex;
+    margin:10px;
+    height:40px;
+    color:#fafafa;
+    z-index:1;
+  }
+    .btn:hover .btn-primary:hover{
+    opacity:1;
+    color:red;
+  }
+  .modal {
+  	top:300px;
+  }
+  .modal-dialog{
+  	justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .modal-header{
+  	justify-content: center !important;
+    align-items: center;
+    text-align: center;
+  }
+  .modal-header span {
+  	/*padding-bottom:40px;*/
+  }
+  h4 {
+  	    justify-content: center;
+    align-items: center;
+    text-align: center;
+    display:flex;
+  }
+
+  .choose {
+  	border:1px solid #000;
+  	padding:20px;
+  	margin:10px auto;
+  }
+  .custom-multimedia-upload {
+  	display:block;
+  	cursor:pointer;
+  }
+  input[type="file"] {
+    display: none;
+}
 
 </style>

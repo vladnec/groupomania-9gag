@@ -1,4 +1,5 @@
 <template>
+  <div>
   <nav class="navbar navbar-expand navbar-dark bg-dark">
       <div class="navbar-nav">
           <router-link :to="{name:'home'}" class="navbar-brand justify-content-center abs" href="#"><img src="../assets/icon-left-font-monochrome-white.png" width="140px" height="24px"></router-link>
@@ -10,12 +11,53 @@
               <li @click="retrieveProfileId" class="logo profile">
                   <a>{{ profileName }}</a>
               </li>
-              <li class="publish">
-                  <a class="publish" href="#">Publish</a>
+              <li>
+                                    <button type="button" class="publish" data-toggle="modal" data-target="#exampleModal">
+                Publish
+              </button>
               </li>
           </ul>
       </div>
   </nav> 
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>Publish Content</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              Choose the type of content you want to publish
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-8 choose">
+              <i class="fas fa-file-alt"></i> Text
+            </div>
+          </div>
+          <div class="row">
+              <div class="col-lg-8 choose">
+                <label for="multimedia" class="custom-multimedia-upload">
+                  <i class="fas fa-image"></i>Multimedia
+                </label>
+                 <input type="file" accept="image/*" id="multimedia">
+                
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</div>
 </template>
 
 <script>
@@ -55,7 +97,6 @@
   }
   .navbar-brand.abs {
     position: absolute;
-    width: 100%;
     padding-bottom:30px;
     left: 0;
     text-align: center;
@@ -69,18 +110,6 @@
     cursor:pointer;
   }
 
-
-  .publish {
-    background-color:#0099FF;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    display:flex;
-    margin:10px;
-    height:40px;
-    color:#fafafa;
-  }
-
   .logo-header {
     height: 40px;
     display: flex;
@@ -90,4 +119,5 @@
   a {
     color:#fafafa;
   }
+
 </style>

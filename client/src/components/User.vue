@@ -4,6 +4,10 @@
 		<h6> {{ data.firstname}} {{ data.lastname}} </h6>
 		<h6 class="margin-email"> {{ data.email }} </h6>
 		<button type="button" class="btn btn-danger" @click="confirmDelete">Delete</button>
+		<button type="button" class="publish" data-toggle="modal" data-target="#exampleModal">
+                Publish
+              </button>
+
 	</div>
 </template>
 <script>
@@ -46,7 +50,7 @@
 .btn-danger {
 	background-color:red;
 	opacity:1;
-	color:#000;
+	color:#fff;
 	height:40px;
 	border:none;
 }
