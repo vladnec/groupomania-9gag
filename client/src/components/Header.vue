@@ -12,49 +12,124 @@
                   <a>{{ profileName }}</a>
               </li>
               <li>
-                                    <button type="button" class="publish" data-toggle="modal" data-target="#exampleModal">
-                Publish
-              </button>
+                <button type="button" class="publish" data-toggle="modal" data-target="#exampleModal">Publish</button>          
               </li>
           </ul>
       </div>
   </nav> 
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+<div 
+class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h4>Publish Content</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="container">
-          <div class="row">
-            <div class="col">
-              Choose the type of content you want to publish
-            </div>
+
+      <!-- ======= MULTIMEDIA MODAL ====== -->
+      <div v-if="multimedia" id="multimedia">
+        <div class="modal-header">
+          <div>
+            <h4>Give your post a title</h4>
+            <p>An accuarate, descriptive title can help people discover your post</p>
           </div>
-          <div class="row">
-            <div class="col-lg-8 choose">
-              <i class="fas fa-file-alt"></i> Text
+          <button type="button" class="close" @click="closeModal">
+            <span aria-hidden="true">&times;</span>
+          </button>   
+        </div> <!-- /modal header -->
+        <div class="modal-body">
+          <div class="container">
+            <div class="row">
+                <textarea 
+                v-model="currentLength" 
+                class="choose left" rows="4" maxlength="280" placeholder="Describe your post..."></textarea>
             </div>
-          </div>
-          <div class="row">
-              <div class="col-lg-8 choose">
-                <label for="multimedia" class="custom-multimedia-upload">
-                  <i class="fas fa-image"></i>Multimedia
-                </label>
-                 <input type="file" accept="image/*" id="multimedia">
-                
+            <div class="row">
+            <div class="row">
+              <div class="col-lg-2">
+                <div class="length">{{ titleLimit }}</div>
               </div>
+            </div>
+              <div class="col choose">
+                <label for="multimedia" class="custom-multimedia-upload">
+                  <i class="fas fa-image"></i>
+                  <p>Choose files..</p>
+                </label> 
+                <input type="file" accept="image/*" id="multimedia">
+              </div>
+            </div> <!-- /row -->
+          </div> <!--/ container -->
+        </div> <!-- /modal-body -->
+      </div> <!-- MULTIMEDIA modal -->
+
+            <!-- ======= Text MODAL ====== -->
+      <div v-else-if="text" id="text">
+        <div class="modal-header">
+          <div>
+            <h4>Give your post a title</h4>
+            <p>An accuarate, descriptive title can help people discover your post</p>
+          </div>
+          <button type="button" class="close" @click="closeModal">
+            <span aria-hidden="true">&times;</span>
+          </button>   
+        </div> <!-- /modal header -->
+        <div class="modal-body">
+          <div class="container">
+            <div class="row">
+                <textarea 
+                v-model="currentLength" 
+                class="choose left" rows="4" maxlength="280" placeholder="Describe your post..."></textarea>
+            </div>
+            <div class="row">
+            <div class="row">
+              <div class="col-lg-2">
+                <div class="length">{{ titleLimit }}</div>
+              </div>
+            </div>
+                <textarea 
+                v-model="contentCurrentLength"
+                class="choose left" rows="8" maxlength="40000" placeholder="Add content..."></textarea>
+              <div class="col-lg-2">
+                <div class="content-length">{{ contentLimitComputed }}</div>
+              </div>
+            </div> <!-- /row -->
+          </div> <!--/ container -->
+        </div> <!-- /modal-body -->
+      </div> <!-- MULTIMEDIA modal -->
+            <!-- ======= DEFAULT MODAL ====== -->
+      
+      <div v-else>
+        <div class="modal-header">
+          <h4>Publish Content</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <div class="row">
+              <div class="col">
+                Choose the type of content you want to publish
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-8 choose main-choose" @click="textModal">
+                <i class="fas fa-file-alt"></i> Text
+
+              </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 choose main-choose" @click="multimediaModal">
+
+                    <i class="fas fa-image"></i>Multimedia
+   
+                </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</div>
+
+    </div> <!-- /modal-content -->
+  </div> <!-- /modal dialog -->
+</div> <!-- modal -->
 
 
 </div>
@@ -63,11 +138,26 @@
 <script>
   export default {
     name:'Header',
-
-
+    data(){
+      return { 
+        notChosen:true,
+        text:false,
+        multimedia:false,
+        limit:280,
+        contentLimit:40000,
+        currentLength:'',
+        contentCurrentLength:'',
+      }
+    },
     computed: {
       profileName(){
         return this.$store.getters.profileName
+      },
+      titleLimit(){
+        return this.limit - this.currentLength.length
+      },
+      contentLimitComputed(){
+        return this.contentLimit - this.contentCurrentLength.length
       },
       loggedIn(){
         return this.$store.getters.loggedIn
@@ -83,8 +173,22 @@
       retrieveProfileId(){
         this.$store.dispatch('retrieveName')
         .then(response => {
-          this.$router.push({name:'user', params: { userData : response}})
+          this.$router.push({name:'user',})
         })
+      },
+      multimediaModal(){
+        this.notChosen = false
+        this.multimedia = true
+      },
+      textModal(){
+        this.notChosen = false,
+        this.text = true;
+      },
+      closeModal(){
+        $('#exampleModal').modal('hide')
+        this.notChosen = true,
+        this.multimedia = false,
+        this.text = false
       }
     }
   }

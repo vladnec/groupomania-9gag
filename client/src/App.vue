@@ -102,11 +102,9 @@
     align-items: center;
     text-align: center;
   }
-  .modal-header span {
-  	/*padding-bottom:40px;*/
-  }
+
   h4 {
-  	    justify-content: center;
+  	justify-content: center;
     align-items: center;
     text-align: center;
     display:flex;
@@ -116,7 +114,12 @@
   	border:1px solid #000;
   	padding:20px;
   	margin:10px auto;
+  	cursor:pointer;
   }
+  .main-choose:hover {
+  	font-size:16px;
+  }
+
   .custom-multimedia-upload {
   	display:block;
   	cursor:pointer;
@@ -124,5 +127,30 @@
   input[type="file"] {
     display: none;
 }
+
+textarea {
+	width:100%;
+	resize:none;
+}
+	.length {
+		margin-top:-30px;
+		margin-left:420px;
+	}
+	.content-length {
+		margin-top:-30px;
+		margin-left:395px;
+	}
+
+	label p {
+		border:1px solid #BBBBBB;
+		padding:3px;
+		border-radius:4px;
+		width:116px;
+		height:30px;
+		background-color:#0099FF;
+		margin-top:10px;
+		color:#fff;
+		margin-left:145px;
+	}
 
 </style>
