@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const config = require('./config/config');
 
 const userRoutes = require('./routes/user');
+const writtenRoutes = require('./routes/writtenPost');
 
 const app = express();
 
@@ -28,5 +29,5 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 
 app.use('/auth', userRoutes);
-
+app.use('/written', writtenRoutes);
 module.exports = app;

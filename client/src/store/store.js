@@ -63,6 +63,24 @@ export const store = new Vuex.Store({
 					})
 			})
 		},
+		writtenPost(context,data) {
+			return new Promise((resolve,reject) =>{
+				axios.post('http://localhost:3000/written/', {
+					title : data.title,
+					content : data.content,
+					userId : data.userId,
+					author_firstname : data.author_firstname,
+					author_lastname : data.author_lastname,
+				})
+				.then(response => {
+					console.log(response)
+					resolve(response)
+				})
+				.catch(error => {
+					reject(error)
+				})
+			})
+		},
 		retrieveName(context){
 			return new Promise((resolve,reject)=>{
 				axios.get('http://localhost:3000/auth/user/' + this.state.userId)

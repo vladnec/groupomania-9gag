@@ -89,9 +89,6 @@
     opacity:1;
     color:red;
   }
-  .modal {
-  	top:300px;
-  }
   .modal-dialog{
   	justify-content: center;
     align-items: center;
@@ -113,7 +110,7 @@
   .choose {
   	border:1px solid #000;
   	padding:20px;
-  	margin:10px auto;
+  	margin:20px auto;
   	cursor:pointer;
   }
   .main-choose:hover {
@@ -133,14 +130,14 @@ textarea {
 	resize:none;
 }
 	.length {
-		margin-top:-30px;
+		margin-top:0px;
+		margin-bottom:10px;
 		margin-left:420px;
 	}
 	.content-length {
 		margin-top:-30px;
 		margin-left:395px;
 	}
-
 	label p {
 		border:1px solid #BBBBBB;
 		padding:3px;
@@ -151,6 +148,11 @@ textarea {
 		margin-top:10px;
 		color:#fff;
 		margin-left:145px;
+	}
+
+	.title-error {
+		position:relative;
+		bottom:20px;
 	}
 
 </style>

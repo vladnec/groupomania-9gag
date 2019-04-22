@@ -72,28 +72,52 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
           </button>   
         </div> <!-- /modal header -->
         <div class="modal-body">
-          <div class="container">
-            <div class="row">
-                <textarea 
-                v-model="currentLength" 
-                class="choose left" rows="4" maxlength="280" placeholder="Describe your post..."></textarea>
+        <div 
+          v-if="serverError"
+          class="server-error">
+          {{ serverError }}
+        </div>
+          <form>
+            <div class="form-group">
+              <textarea
+                v-validate="'required'" 
+                v-model="currentLength"
+                name="title"
+                class="choose"
+                :class="{'input-error' : errors.has('title')}"
+                rows="4"
+                maxlength="280"
+                placeholder="Describe your post...">
+              </textarea>
+              <div class="length">{{ titleLimit}}</div>
+                <small 
+                class="form-error title-error">
+                {{ errors.first('title') }}
+              </small>
             </div>
-            <div class="row">
-            <div class="row">
-              <div class="col-lg-2">
-                <div class="length">{{ titleLimit }}</div>
-              </div>
+            <div class="form-group">
+              <textarea
+              v-validate="'required'"
+              v-model="contentCurrentLength"
+              name="content"
+              :class="{'input-error' : errors.has('content')}"
+              class="choose left"
+              rows="8"
+              maxlength="40000"
+              placeholder="Add content..."
+              ></textarea>
+              <div class="content-length"> {{contentLimitComputed}}</div>
+              <small 
+                class="form-error">
+                {{ errors.first('content') }}
+              </small>
             </div>
-                <textarea 
-                v-model="contentCurrentLength"
-                class="choose left" rows="8" maxlength="40000" placeholder="Add content..."></textarea>
-              <div class="col-lg-2">
-                <div class="content-length">{{ contentLimitComputed }}</div>
-              </div>
-            </div> <!-- /row -->
-          </div> <!--/ container -->
-        </div> <!-- /modal-body -->
-      </div> <!-- MULTIMEDIA modal -->
+            <button @click.prevent="validateBeforePost" class="btn btn-primary">Post</button>
+
+          </form>
+        </div>
+
+      </div> <!--TEXT modal -->
             <!-- ======= DEFAULT MODAL ====== -->
       
       <div v-else>
@@ -147,6 +171,7 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
         contentLimit:40000,
         currentLength:'',
         contentCurrentLength:'',
+        serverError:'',
       }
     },
     computed: {
@@ -189,6 +214,30 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
         this.notChosen = true,
         this.multimedia = false,
         this.text = false
+      },
+      validateBeforePost(){
+          this.$validator.validateAll().then((result)=>{
+          if(result){
+            this.postWritten()
+          }
+        });
+      },
+      postWritten(){
+        this.$store.dispatch('writtenPost', {
+          title:this.currentLength,
+          content:this.contentCurrentLength,
+          userId: this.$store.state.userId,
+          author_firstname: this.$store.state.firstname,
+          author_lastname : this.$store.state.lastname
+        })
+        .then(response => {
+          console.log(response)
+          this.closeModal()
+          this.$router.push('/')
+        })
+        .catch(error =>{
+          console.log(error)
+        })
       }
     }
   }
