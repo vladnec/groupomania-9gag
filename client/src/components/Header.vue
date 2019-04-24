@@ -36,11 +36,28 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
           </button>   
         </div> <!-- /modal header -->
         <div class="modal-body">
+              <div 
+          v-if="serverError"
+          class="server-error">
+          {{ serverError }}
+        </div>
+        <div v-if="successMessage"> {{ successMessage }}</div>
+          <form 
+          enctype="multipart/form-data"
+          @submit.prevent="validateBeforePosting">
+
           <div class="container">
             <div class="row">
                 <textarea 
+                name="title"
+                v-validate="'required'"
+                :class="{'input-error' : errors.has('title')}"
                 v-model="currentLength" 
                 class="choose left" rows="4" maxlength="280" placeholder="Describe your post..."></textarea>
+                <small 
+                  class="form-error title-error">
+                  {{ errors.first('title') }}
+              </small>
             </div>
             <div class="row">
             <div class="row">
@@ -49,14 +66,20 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
               </div>
             </div>
               <div class="col choose">
-                <label for="multimedia" class="custom-multimedia-upload">
+                <label for="file" class="custom-multimedia-upload">
                   <i class="fas fa-image"></i>
                   <p>Choose files..</p>
                 </label> 
-                <input type="file" accept="image/*" id="multimedia">
+                <input 
+                id="file"
+                type="file" 
+                ref="file"
+                @change="selectFile">
               </div>
             </div> <!-- /row -->
+            <button class="btn btn-info">Send</button>
           </div> <!--/ container -->
+        </form>
         </div> <!-- /modal-body -->
       </div> <!-- MULTIMEDIA modal -->
 
@@ -77,6 +100,7 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
           class="server-error">
           {{ serverError }}
         </div>
+        <div v-if="successMessage"> {{ successMessage }}</div>
           <form>
             <div class="form-group">
               <textarea
@@ -172,6 +196,8 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
         currentLength:'',
         contentCurrentLength:'',
         serverError:'',
+        successMessage:'',
+        file:'',
       }
     },
     computed: {
@@ -195,6 +221,9 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
       this.$store.dispatch('retrieveName')
     },
     methods:{
+      selectFile(){
+        this.file = this.$refs.file.files[0];
+      },
       retrieveProfileId(){
         this.$store.dispatch('retrieveName')
         .then(response => {
@@ -213,7 +242,10 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
         $('#exampleModal').modal('hide')
         this.notChosen = true,
         this.multimedia = false,
-        this.text = false
+        this.text = false,
+        this.currentLength = '',
+        this.successMessage = '',
+        this.serverError = ''
       },
       validateBeforePost(){
           this.$validator.validateAll().then((result)=>{
@@ -221,6 +253,41 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
             this.postWritten()
           }
         });
+      },
+      validateBeforePosting(){
+          this.$validator.validateAll().then((result)=>{
+          if(result){
+            if(this.file){
+                this.sendFile()
+            } else {
+              this.serverError = "No file uploaded!"
+            }
+            
+          }
+        });
+      },
+      sendFile(){
+        this.serverError = ''
+        this.successMessage = ''
+        this.$store.dispatch('mediaPost', {
+          title:this.currentLength,
+          file:this.file,
+          userId:this.$store.state.userId,
+          author_firstname:this.$store.state.firstname,
+          author_lastname:this.$store.state.lastname
+        })
+        .then(response => {
+          this.closeModal()
+          this.$router.push('/')
+          this.successMessage = response.data.message
+          this.currentLength = '',
+          this.file = ''
+        })
+        .catch(error => {
+          this.serverError = "File type not supported!"
+          this.file = ''
+          this.currentLength = ''
+        })
       },
       postWritten(){
         this.$store.dispatch('writtenPost', {
@@ -236,7 +303,7 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
           this.$router.push('/')
         })
         .catch(error =>{
-          console.log(error)
+          this.serverError 
         })
       }
     }

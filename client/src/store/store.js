@@ -63,9 +63,27 @@ export const store = new Vuex.Store({
 					})
 			})
 		},
+		mediaPost(context,data){
+			axios.defaults.headers.common['authorization'] = 'Bearer ' + this.state.token
+			const formData = new FormData();
+			formData.append('file', data.file);
+			formData.append('userId', data.userId)
+			formData.append('author_lastname', data.author_lastname)
+			formData.append('author_firstname', data.author_firstname)
+			formData.append('title', data.title)
+			return new Promise((resolve, reject) => {
+				axios.post('http://localhost:3000/post',formData)
+				.then(response => {
+					resolve(response)
+				})
+				.catch(error =>{
+					reject(error)
+				})
+			})
+		},
 		writtenPost(context,data) {
 			return new Promise((resolve,reject) =>{
-				axios.post('http://localhost:3000/written/', {
+				axios.post('http://localhost:3000/post', {
 					title : data.title,
 					content : data.content,
 					userId : data.userId,
@@ -73,12 +91,23 @@ export const store = new Vuex.Store({
 					author_lastname : data.author_lastname,
 				})
 				.then(response => {
-					console.log(response)
 					resolve(response)
 				})
 				.catch(error => {
-					reject(error)
+					console.log(error.response)
 				})
+			})
+		},
+		retrievePosts(context,data) {
+			return new Promise((resolve,reject) => {
+				axios.get('http://localhost:3000/post')
+			})
+			.then(response => {
+				console.log('working')
+				resolve(response)
+			})
+			.catch(error => {
+				reject(error)
 			})
 		},
 		retrieveName(context){
