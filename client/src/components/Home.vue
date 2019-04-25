@@ -7,6 +7,9 @@
 <script>
 	import axios from 'axios';
 	export default {
-		name: 'home'
+		name: 'home',
+		created(){
+			this.$store.dispatch('retrievePosts')
+		}
 	}
 </script>

@@ -64,7 +64,7 @@ export const store = new Vuex.Store({
 			})
 		},
 		mediaPost(context,data){
-			axios.defaults.headers.common['authorization'] = 'Bearer ' + this.state.token
+			// axios.defaults.headers.common['authorization'] = 'Bearer ' + this.state.token
 			const formData = new FormData();
 			formData.append('file', data.file);
 			formData.append('userId', data.userId)
@@ -103,13 +103,15 @@ export const store = new Vuex.Store({
 				axios.get('http://localhost:3000/post')
 			})
 			.then(response => {
-				console.log('working')
+				console.log(response)
 				resolve(response)
 			})
 			.catch(error => {
 				reject(error)
 			})
+			// console.log('hello')
 		},
+
 		retrieveName(context){
 			return new Promise((resolve,reject)=>{
 				axios.get('http://localhost:3000/auth/user/' + this.state.userId)
