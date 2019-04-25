@@ -10,6 +10,7 @@ export const store = new Vuex.Store({
 		userId: localStorage.getItem('userId') || null,
 		firstname:'',
 		lastname:'',
+		title:'',	
 		email:'',
 		initials:'',
 	},
@@ -99,15 +100,14 @@ export const store = new Vuex.Store({
 			})
 		},
 		retrievePosts(context,data) {
-			return new Promise((resolve,reject) => {
+			return new Promise((resolve,reject)=>{
 				axios.get('http://localhost:3000/post')
-			})
-			.then(response => {
-				console.log('working')
-				resolve(response)
-			})
-			.catch(error => {
-				reject(error)
+				.then(response => {
+					resolve(response)
+				})
+				.catch(error=>{
+					reject(error)
+				})
 			})
 		},
 		retrieveName(context){

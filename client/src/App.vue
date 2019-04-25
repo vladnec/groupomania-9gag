@@ -154,5 +154,12 @@ textarea {
 		position:relative;
 		bottom:20px;
 	}
+	.logo {
+    margin-top:10px;
+    width:40px;
+    height:40px;
+    z-index:1;
+    cursor:pointer;
+  }
 
 </style>
