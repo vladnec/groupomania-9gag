@@ -1,11 +1,10 @@
 <template>
 	<div id="app"> 
 		<div 
-		v-for="post in posts"
+		v-for="post in sortedPosts"
 		ref="post"
 		class="post"
-		:id="post._id"
-		@click="getDetails">
+		:id="post._id">
 			<div class="container">
 				<div class="row">
 					<span class="post-author-initials logo profile">
@@ -20,13 +19,14 @@
 					<div 
 						v-if="post.content"
 						class="post-content">
-						{{post.content}}
+						{{post.content | subStr}}
 					</div>
 					<div
+
 						v-else
-						class="post-image">		
-						<video controls :src="post.imageUrl"></video>
-						<img :src="post.imageUrl">
+						class="post-image">	
+						<div v-if="itsImage(post.imageUrl)"><img :src="post.imageUrl"></div>
+						<div v-else><video controls :src="post.imageUrl"></video></div>	
 					</div>
 				</div>
 			</div>
@@ -41,14 +41,44 @@
 		name: 'home',
 		data(){
 			return {
-				posts:''
+				posts:'',
+				imageType: [
+					  "jpeg",
+					  "png",
+					  "gif",
+					  "jpg",  
+					  "pjpeg",  
+					  "jfif",
+				],
+				sortedPosts:'',
 			}
 		},
 		created(){
-			this.$store.dispatch('retrievePosts')
-			.then(response => {
-				this.posts = response.data
-			})
+			this.getData()
+		},
+		watch: {
+			posts : 'getData'
+		},
+		methods: {
+			itsImage : function(string) {
+				let output = document.querySelector('.post-image')
+				let image = string.split('.')[1]
+				if(this.imageType.includes(image)){
+					return true
+				}
+			},
+			sortByDate(a,b){
+				var dateA = new Date(a.date).getTime();
+				var dateB = new Date(b.date).getTime();
+				return dateA > dateB ? -1 : 1
+			},
+			getData(){
+				this.$store.dispatch('retrievePosts')
+				.then(response => {
+					this.posts = response.data
+					this.sortedPosts = this.posts.sort(this.sortByDate)
+				})
+			}
 		},
 		filters: {
 			subStr: function(string){
@@ -60,13 +90,8 @@
 			},
 			initials: function(string){
 				return string.split('')[0].toUpperCase()
-			}
+			},
 		},
-		methods: {
-			getDetails(){
-				console.log()
-			}
-		}
 	}
 </script>
 <style scoped>

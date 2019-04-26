@@ -41,7 +41,6 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
           class="server-error">
           {{ serverError }}
         </div>
-        <div v-if="successMessage"> {{ successMessage }}</div>
           <form 
           enctype="multipart/form-data"
           @submit.prevent="validateBeforePosting">
@@ -100,7 +99,6 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
           class="server-error">
           {{ serverError }}
         </div>
-        <div v-if="successMessage"> {{ successMessage }}</div>
           <form>
             <div class="form-group">
               <textarea
@@ -196,7 +194,6 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
         currentLength:'',
         contentCurrentLength:'',
         serverError:'',
-        successMessage:'',
         file:'',
       }
     },
@@ -244,8 +241,9 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
         this.multimedia = false,
         this.text = false,
         this.currentLength = '',
-        this.successMessage = '',
+        this.contentCurrentLength = '',
         this.serverError = ''
+        this.file = ''
       },
       validateBeforePost(){
           this.$validator.validateAll().then((result)=>{
@@ -266,9 +264,11 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
           }
         });
       },
+      addNewPost(){
+        this.$store.dispatch('newPost')
+      },
       sendFile(){
         this.serverError = ''
-        this.successMessage = ''
         this.$store.dispatch('mediaPost', {
           title:this.currentLength,
           file:this.file,
@@ -279,9 +279,6 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
         .then(response => {
           this.closeModal()
           this.$router.push('/')
-          this.successMessage = response.data.message
-          this.currentLength = '',
-          this.file = ''
         })
         .catch(error => {
           this.serverError = "File type not supported!"
@@ -322,13 +319,7 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
     text-align: center;
     top:10px;
   }
-  .logo {
-    margin-top:10px;
-    width:40px;
-    height:40px;
-    z-index:1;
-    cursor:pointer;
-  }
+
 
   .logo-header {
     height: 40px;

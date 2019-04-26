@@ -35,7 +35,7 @@ export const store = new Vuex.Store({
 		},
 		destroyUserId(state){
 			state.userId = null
-		}
+		},
 	},
 	getters:{
 		loggedIn(state){
@@ -45,7 +45,7 @@ export const store = new Vuex.Store({
 			let firstInitial = state.firstname.split("")[0]
 			let lastInitial = state.lastname.split("")[0]
 			return firstInitial + lastInitial
-		}
+		},
 	},
 	actions:{
 		register(context,data){

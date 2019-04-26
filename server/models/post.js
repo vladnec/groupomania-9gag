@@ -7,6 +7,7 @@ const postSchema = mongoose.Schema({
 	userId:               {type:String, required:true},
 	author_firstname:     {type:String, required:true},
 	author_lastname:      {type:String, required:true},
+	created_at:           {type:Date,   required:true},
 	content:    		  {type:String, required:false},
 	imageUrl:             {type:String, required:false},
 

@@ -10,6 +10,7 @@ exports.createPost = (req, res, next) => {
           userId:req.body.userId,
           author_firstname  :req.body.author_firstname ,
           author_lastname :req.body.author_lastname,
+          created_at:Date.now(),
           imageUrl : url + '/images/' + req.file.filename
         });
           post.save().then(
@@ -31,6 +32,7 @@ exports.createPost = (req, res, next) => {
           userId:req.body.userId,
           author_firstname  :req.body.author_firstname ,
           author_lastname :req.body.author_lastname,
+          created_at:Date.now(),
           content:req.body.content,
         });
           post.save().then(
