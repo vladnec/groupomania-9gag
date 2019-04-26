@@ -278,6 +278,7 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
         })
         .then(response => {
           this.closeModal()
+          this.$store.dispatch('addNewPost')
           this.$router.push('/')
         })
         .catch(error => {
@@ -298,6 +299,9 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
           console.log(response)
           this.closeModal()
           this.$router.push('/')
+            .then(response => {
+              this.$store.dispatch('addNewPost')
+          })
         })
         .catch(error =>{
           this.serverError 

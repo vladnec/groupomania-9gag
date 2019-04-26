@@ -64,3 +64,21 @@ exports.getPosts = (req,res,next) => {
 		}
 	);
 };
+
+
+exports.getOnePost = (req,res,next) => {
+
+  Post.findOne({
+    _id:req.params.id
+  }).then(
+    (post) => {
+      res.status(200).json(post);
+    }
+  ).catch(
+    (error) => {
+      res.status(400).json({
+        error: error
+      });
+    }
+  );
+};

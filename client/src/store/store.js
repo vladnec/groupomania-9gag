@@ -13,6 +13,8 @@ export const store = new Vuex.Store({
 		title:'',	
 		email:'',
 		initials:'',
+		post:'',
+		newPosts:'',
 	},
 	mutations:{
 		retrieveToken(state, token){
@@ -29,6 +31,9 @@ export const store = new Vuex.Store({
 		},
 		retrieveEmail(state,email) {
 			state.email = email
+		},
+		retrieveOnePost(state,post) {
+			state.post = post
 		},
 		destroyToken(state){
 			state.token = null
@@ -96,6 +101,16 @@ export const store = new Vuex.Store({
 				})
 				.catch(error => {
 					console.log(error.response)
+				})
+			})
+		},
+		retrieveOnePost(context,data) {
+			return new Promise((resolve,reject) => {
+				axios.get('http://localhost:3000/post/' + data._id)
+				.then(response=> {
+					const post = response.data
+					context.commit('retrieveOnePost', post)
+					resolve(response)
 				})
 			})
 		},

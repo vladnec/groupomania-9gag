@@ -3,6 +3,7 @@ import Signup from './components/auth/Signup.vue'
 import DeleteUser from './components/auth/DeleteUser.vue'
 import User from './components/User.vue'
 import Home from './components/Home.vue'
+import Post from './components/Post.vue'
 
 
 export const routes = [
@@ -43,5 +44,12 @@ export const routes = [
 		meta:{
 			requiresAuth: true
 		}
-	},
+	},{
+		path:'/post/:id',
+		name:'post',
+		component:Post,
+		meta:{
+			requiresAuth:true
+		}
+	}
 ];

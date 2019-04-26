@@ -1,11 +1,6 @@
 <template>
-	<div id="app"> 
-		<div 
-		v-for="post in sortedPosts"
-		ref="post"
-		class="post">
-			<div class="container"
-			@click="getDetails(post._id)">
+	<div id="app">
+			<div class="container">
 				<div class="row">
 					<span class="post-author-initials logo profile">
 						{{post.author_firstname | initials}}{{post.author_lastname | initials}} 
@@ -20,7 +15,7 @@
 					<div 
 						v-if="post.content"
 						class="post-content">
-						{{post.content | subStr}}
+						{{post.content}}
 					</div>
 					<div
 
@@ -31,18 +26,18 @@
 					</div>
 				</div>
 			</div>
-			<hr>
-		</div>
+
 	</div>
+
 </template>
 
 <script>
-
 	export default {
-		name: 'home',
-		data(){
+		name:'post',
+		data() {
 			return {
-				posts:'',
+				post:'',
+				id:this.$route.params.id,
 				imageType: [
 					  "jpeg",
 					  "png",
@@ -51,13 +46,25 @@
 					  "pjpeg",  
 					  "jfif",
 				],
-				sortedPosts:'',
 			}
 		},
 		created(){
 			this.getData()
 		},
+		watch:{
+			'$route' (to,from) {
+				this.id = to.params.id
+			}
+		},
 		methods: {
+			getData(){
+				this.$store.dispatch('retrieveOnePost', {
+					_id : this.id
+				})
+				.then(response => {
+					this.post = response.data
+				})
+			},
 			itsImage : function(string) {
 				let output = document.querySelector('.post-image')
 				let image = string.split('.')[1]
@@ -65,27 +72,6 @@
 					return true
 				}
 			},
-			sortByDate(a,b){
-				var dateA = new Date(a.date).getTime();
-				var dateB = new Date(b.date).getTime();
-				return dateA > dateB ? -1 : 1
-			},
-			getData(){
-				this.$store.dispatch('retrievePosts')
-				.then(response => {
-					this.posts = response.data
-					this.sortedPosts = this.posts.sort(this.sortByDate)
-				})
-			},
-			getDetails(id){
-				this.$store.dispatch('retrieveOnePost', {
-					_id : id
-				})
-				.then(response => {
-					console.log()
-					this.$router.push({name:'post' , params:{id:id}});
-				})
-			}
 		},
 		filters: {
 			subStr: function(string){
@@ -99,6 +85,7 @@
 				return string.split('')[0].toUpperCase()
 			},
 		},
+
 	}
 </script>
 <style scoped>
