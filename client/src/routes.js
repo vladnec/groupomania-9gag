@@ -27,6 +27,10 @@ export const routes = [
 
 	},
 	{
+		path:'*',
+		redirect:'/'
+	},
+	{
 		path:'/user/',
 		name:'user',
 		props:true,
@@ -39,9 +43,5 @@ export const routes = [
 		meta:{
 			requiresAuth: true
 		}
-	},
-	{
-		path:'*',
-		redirect:'/'
 	},
 ];

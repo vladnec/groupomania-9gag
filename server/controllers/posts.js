@@ -52,7 +52,6 @@ exports.createPost = (req, res, next) => {
 };
 
 exports.getPosts = (req,res,next) => {
-
 	Post.find().then(
 		(posts) => {
 			res.status(200).json(posts);

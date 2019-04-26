@@ -39,7 +39,6 @@
 	import axios from 'axios';
 	export default {
 		name: 'home',
-<<<<<<< HEAD
 		data(){
 			return {
 				posts:'',
@@ -93,11 +92,6 @@
 				return string.split('')[0].toUpperCase()
 			},
 		},
-=======
-		created(){
-			this.$store.dispatch('retrievePosts')
-		}
->>>>>>> 861ff0b299204020ac1999bdb6b323418e7cd70e
 	}
 </script>
 <style scoped>
