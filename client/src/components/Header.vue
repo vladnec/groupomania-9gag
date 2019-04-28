@@ -1,6 +1,7 @@
 <template>
   <div>
-  <nav class="navbar navbar-expand navbar-dark bg-dark">
+<!--     <div class="container">
+        <nav class="navbar navbar-expand navbar-dark bg-dark">
       <div class="navbar-nav">
           <router-link :to="{name:'home'}" class="abs" href="#"><img src="../assets/icon-left-font-monochrome-white.png" width="140px" height="24px"></router-link>
       </div>
@@ -14,7 +15,9 @@
                 <div
                 v-if="unreadPosts" 
                 class="num">{{ unreadPosts}}</div>
-                <ul v-bind:class="{listNotifications : unreadPosts, noNotification : !unreadPosts}">
+                <ul 
+                v-bind:class="{listNotifications : unreadPosts, noNotification : !unreadPosts}"
+                >
                   <li>
                     <span class="icon"><i class="fas fa-user"></i></span>
                     <router-link :to="{name:'home'}" tag="span" class="text">You have {{ unreadPosts }} unread posts.</router-link>
@@ -30,6 +33,50 @@
           </ul>
       </div>
   </nav> 
+    </div> -->
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+
+    </div>
+    <div class="mx-auto order-0">
+
+        <router-link :to="{name:'home'}" tag="a" class="navbar-brand mx-auto"><img src="../assets/icon-left-font-monochrome-white.png" width="140px" height="24px"></router-link>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul 
+        v-if="loggedIn"
+        class="navbar-nav ml-auto">
+
+                
+                    <li 
+                    class="notifications nav-item">
+                      <i class="fas fa-bell"></i>
+                      <div
+                      v-if="unreadPosts" 
+                      class="num">{{ unreadPosts}}</div>
+                      <ul 
+                      class="listNotifications"
+                      >
+                        <li class="nav-item">
+                          <span class="icon"><i class="fas fa-user"></i></span>
+                          <router-link :to="{name:'home'}" tag="span" class="text">You have {{ unreadPosts }} unread posts.</router-link>
+                        </li>
+                      </ul>
+                    </li>
+                    <li @click="retrieveProfileId" class="logo profile nav-item">
+                        <a>{{ profileName }}</a>
+                    </li>
+                    <li class="nav-item">
+                      <button type="button" class="publish" data-toggle="modal" data-target="#exampleModal">Publish</button>          
+                    </li>
+        </ul>
+    </div>
+</nav>
+
 
 
 <div 
@@ -325,11 +372,6 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
 
 </script>
 <style scoped>
-
-  .navbar {
-    height:60px;
-  }
-
 
   .logo-header {
     height: 40px;

@@ -100,5 +100,8 @@
 	.link {
 		font-weight: bold;
 	}
+	input {
+		min-width:250px;
+	}
 
 </style>
