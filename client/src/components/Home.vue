@@ -1,7 +1,7 @@
 <template>
 	<div id="app"> 
 		<div 
-		v-for="post in sortedPosts"
+		v-for="post in getPosts"
 		ref="post"
 		class="post">
 			<div class="container"
@@ -13,6 +13,7 @@
 					<span class="post-author">{{post.author_firstname}} {{post.author_lastname }}</span>
 				</div>
 				<div class="row">
+
 					<div 
 					class="post-title"> {{ post.title}}</div>
 				</div>
@@ -26,8 +27,8 @@
 
 						v-else
 						class="post-image">	
-						<div v-if="itsImage(post.imageUrl)"><img :src="post.imageUrl"></div>
-						<div v-else><video controls :src="post.imageUrl"></video></div>	
+						<div v-if="itsImage(post.imageUrl)"><img class="w-75":src="post.imageUrl"></div>
+						<div v-else><video controls class="w-75" :src="post.imageUrl"></video></div>	
 					</div>
 				</div>
 			</div>
@@ -42,7 +43,6 @@
 		name: 'home',
 		data(){
 			return {
-				posts:'',
 				imageType: [
 					  "jpeg",
 					  "png",
@@ -51,38 +51,39 @@
 					  "pjpeg",  
 					  "jfif",
 				],
-				sortedPosts:'',
 			}
 		},
 		created(){
-			this.getData()
+			this.getData()			
+		},
+		computed:{
+			unreadPosts(){
+				 return this.$store.getters.UnreadPosts		
+			},
+			getPosts(){
+				return this.$store.getters.GetPosts.sort(this.sortByDate)
+			}
 		},
 		methods: {
-			itsImage : function(string) {
-				let output = document.querySelector('.post-image')
-				let image = string.split('.')[1]
-				if(this.imageType.includes(image)){
-					return true
-				}
-			},
 			sortByDate(a,b){
 				var dateA = new Date(a.date).getTime();
 				var dateB = new Date(b.date).getTime();
 				return dateA > dateB ? -1 : 1
 			},
+			itsImage : function(string) {
+				let image = string.split('.')[1]
+				if(this.imageType.includes(image)){
+					return true
+				}
+			},
 			getData(){
 				this.$store.dispatch('retrievePosts')
-				.then(response => {
-					this.posts = response.data
-					this.sortedPosts = this.posts.sort(this.sortByDate)
-				})
 			},
 			getDetails(id){
 				this.$store.dispatch('retrieveOnePost', {
 					_id : id
 				})
 				.then(response => {
-					console.log()
 					this.$router.push({name:'post' , params:{id:id}});
 				})
 			}
@@ -135,6 +136,11 @@
  	width:80%;
  	height:80%;
  	margin-top:20px;
+ }
+
+ .w-75 {
+ 	max-width:600px;
+ 	max-height:600px;
  }
 
 </style>

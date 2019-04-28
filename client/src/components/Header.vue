@@ -2,12 +2,25 @@
   <div>
   <nav class="navbar navbar-expand navbar-dark bg-dark">
       <div class="navbar-nav">
-          <router-link :to="{name:'home'}" class="navbar-brand justify-content-center abs" href="#"><img src="../assets/icon-left-font-monochrome-white.png" width="140px" height="24px"></router-link>
+          <router-link :to="{name:'home'}" class="abs" href="#"><img src="../assets/icon-left-font-monochrome-white.png" width="140px" height="24px"></router-link>
       </div>
       <div 
       class="ml-auto"
       v-if="loggedIn">
           <ul class="nav ml-auto">
+              <li 
+              class="notifications">
+                <i class="fas fa-bell"></i>
+                <div
+                v-if="unreadPosts" 
+                class="num">{{ unreadPosts}}</div>
+                <ul v-bind:class="{listNotifications : unreadPosts, noNotification : !unreadPosts}">
+                  <li>
+                    <span class="icon"><i class="fas fa-user"></i></span>
+                    <router-link :to="{name:'home'}" tag="span" class="text">You have {{ unreadPosts }} unread posts.</router-link>
+                  </li>
+                </ul>
+              </li>
               <li @click="retrieveProfileId" class="logo profile">
                   <a>{{ profileName }}</a>
               </li>
@@ -194,10 +207,16 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
         currentLength:'',
         contentCurrentLength:'',
         serverError:'',
-        file:'',
+        file:'',      
       }
     },
     computed: {
+      unreadPosts(){
+         return this.$store.getters.UnreadPosts   
+      },
+      postsVisited(){
+        return this.$store.state.postsVisited.length
+      },
       profileName(){
         return this.$store.getters.profileName
       },
@@ -214,7 +233,7 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
         return this.$store.state.userId
       }
     },
-    mounted(){
+    created(){
       this.$store.dispatch('retrieveName')
     },
     methods:{
@@ -264,9 +283,6 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
           }
         });
       },
-      addNewPost(){
-        this.$store.dispatch('newPost')
-      },
       sendFile(){
         this.serverError = ''
         this.$store.dispatch('mediaPost', {
@@ -278,8 +294,8 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
         })
         .then(response => {
           this.closeModal()
-          this.$store.dispatch('addNewPost')
           this.$router.push('/')
+          this.$store.dispatch('retrievePosts')
         })
         .catch(error => {
           this.serverError = "File type not supported!"
@@ -296,12 +312,9 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
           author_lastname : this.$store.state.lastname
         })
         .then(response => {
-          console.log(response)
           this.closeModal()
           this.$router.push('/')
-            .then(response => {
-              this.$store.dispatch('addNewPost')
-          })
+          this.$store.dispatch('retrievePosts')
         })
         .catch(error =>{
           this.serverError 
@@ -316,13 +329,6 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
   .navbar {
     height:60px;
   }
-  .navbar-brand.abs {
-    position: absolute;
-    padding-bottom:30px;
-    left: 0;
-    text-align: center;
-    top:10px;
-  }
 
 
   .logo-header {
@@ -332,7 +338,7 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
   }
     
   a {
-    color:#fafafa;
+    color:#fff;
   }
 
 </style>

@@ -32,7 +32,7 @@
 <style>
 .big-circle{
 	font-size:30px;
-	color:#ccc;
+	color:#fff;
 	margin:30px auto;
     width:120px;
     height:120px;

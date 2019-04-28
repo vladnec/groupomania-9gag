@@ -21,7 +21,7 @@
 
 						v-else
 						class="post-image">	
-						<div v-if="itsImage(post.imageUrl)"><img :src="post.imageUrl"></div>
+						<div v-if="itsImage(post.imageUrl)"><img class="w-100" :src="post.imageUrl"></div>
 						<div v-else><video controls :src="post.imageUrl"></video></div>	
 					</div>
 				</div>
@@ -48,8 +48,14 @@
 				],
 			}
 		},
+		computed:{
+			visitedArray(){
+				return this.$store.state.postsVisited
+			}
+		},
 		created(){
 			this.getData()
+			this.itsVisited()
 		},
 		watch:{
 			'$route' (to,from) {
@@ -66,21 +72,18 @@
 				})
 			},
 			itsImage : function(string) {
-				let output = document.querySelector('.post-image')
 				let image = string.split('.')[1]
 				if(this.imageType.includes(image)){
 					return true
 				}
 			},
+			itsVisited(){
+				this.$store.dispatch('itsVisited', {
+					id:this.id
+				})
+			}
 		},
 		filters: {
-			subStr: function(string){
-				if(string.length > 1000) {
-					return string.substring(0,1000) + '...'
-				} else {
-					return string
-				}
-			},
 			initials: function(string){
 				return string.split('')[0].toUpperCase()
 			},

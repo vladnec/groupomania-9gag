@@ -23,9 +23,17 @@
 </script>
 
 <style>
+
+	.body{
+		min-width:380px;
+	}
 	.container {
 		color:#101010;
 		font-size:14px;
+		min-width:300px;
+	    width: auto !important;
+	    width:300px;
+
 	}
 	input{
 		outline:none;
@@ -70,12 +78,14 @@
     justify-content: center;
     align-items: center;
     border-radius: 50%;
+    color:#fff;
     text-align: center;
     display: flex;
     background-color:#5AAC44;
   }
     .publish {
     background-color:#0099FF;
+    border-radius:4px;
     justify-content: center;
     align-items: center;
     text-align: center;
@@ -84,6 +94,7 @@
     height:40px;
     color:#fafafa;
     z-index:1;
+    width:80px;
   }
     .btn:hover .btn-primary:hover{
     opacity:1;
@@ -161,5 +172,143 @@ textarea {
     z-index:1;
     cursor:pointer;
   }
+  	.noNotification {
+  		display:none;
+  	}
+  	.notifications {
+  		z-index:1;
+  		cursor:pointer;
+  		margin-top:10px;
+  		margin-right:10px;
+  		width:40px;
+  		height:40px;
+  		background:#fff;
+  		border-radius:30px;
+  		box-sizing: border-box;
+  		text-align: center;
+  		padding:5px;
+  		box-shadow: 0 2px 5px rgba(0,0,0,.2);
+  	}
+  	.notifications:hover {
+  		width:300px;
+  		height:50px;
+  		text-align: left;
+  		padding:0 15px;
+  		background:#ff2c74;
+  		/*transform:translateY(100%);*/
+  		border-bottom-left-radius:0;
+  		border-bottom-right-radius:0;
+
+  	}
+  	.notifications .fa-bell {
+  		color:#cecece;
+  		line-height: 30px;
+  		font-size:30px;
+  	}
+  	.notifications:hover .fa-bell{
+  		color:#fff;
+  		position:relative;
+  		top:10px;
+  	}
+  	.notifications .num {
+  		position:relative;
+  		bottom:42px;
+  		left:20px;
+  		width:22px;
+  		height:22px;
+  		border-radius:50%;
+  		background:#ff2c74;
+  		color:#fff;
+  		line-height:22px;
+  		font-family:sans-serif;
+  		text-align: center;
+  	}
+  	.notifications:hover .num{
+  		position:relative;
+  		background:transparent;
+  		color:#fff;
+  		font-size:18px;
+  		bottom:15px;
+  		width:150px;
+  		
+  	}
+  	.notifications:hover .num:after{
+  		content:' Notification';
+  	}
+  	.listNotifications{
+  		position: relative;
+  		right:15px;
+  		top:-3px;
+  		margin:0;
+  		padding:20px;
+  		width:300px;
+  		background:#fff;
+  		box-shadow:0 5px 15px rgba(0,0,0,.5);
+  		box-sizing:border-box;
+  		border-bottom-left-radius:30px;
+  		border-bottom-right-radius:30px;
+  		display:none;
+
+  	}
+  	.notifications:hover .listNotifications {
+  		display:block;
+  	}
+  	.listNotifications li {
+  		list-style:none;
+  		border-bottom:1px solid rgba(0,0,0,.1);
+  		padding:15px 0;
+  		display:flex;
+  	}
+  	.listNotifications li .icon {
+  		width:24px;
+  		height:24px;
+  		background:#ccc;
+  		border-radius:50%;
+  		text-align: center;
+  		line-height: 24px;
+  		margin-right:10px;
+  	}
+  	.listNotifications li .icon .fa-user {
+  		color:#fff;
+  		line-height: 24px;
+  		/*font-size:14px;*/
+  	}
+  	.listNotifications li .text {
+  		font-family:sans-serif;
+  		cursor:pointer;
+  	}
+
+  	.listNotifications li:hover .text {
+  		font-weight:bold;
+  		color:#ff2c74;
+  	}
+	.abs {
+		/*font-size:30px;*/
+	}
+
+
+
+
+
+
+
+@media only screen and (max-width: 900px) {
+
+
+	.notifications:hover{
+		display:none;
+	}	.listNotifications {
+		display:none;
+	}
+}
+
+
+
+
+
+
+
+
+
 
 </style>

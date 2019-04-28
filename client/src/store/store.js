@@ -14,7 +14,10 @@ export const store = new Vuex.Store({
 		email:'',
 		initials:'',
 		post:'',
-		newPosts:'',
+		unreadPosts:'',
+		sortedPosts:'',
+		posts:[],
+		postsVisited: JSON.parse(localStorage.getItem('postsVisited')) || [],
 	},
 	mutations:{
 		retrieveToken(state, token){
@@ -35,12 +38,18 @@ export const store = new Vuex.Store({
 		retrieveOnePost(state,post) {
 			state.post = post
 		},
+		retrievePosts(state,posts){
+			state.posts = posts
+		},
 		destroyToken(state){
 			state.token = null
 		},
 		destroyUserId(state){
 			state.userId = null
 		},
+		postsVisited(state, postsVisited){
+			state.postsVisited = postsVisited
+		}
 	},
 	getters:{
 		loggedIn(state){
@@ -51,8 +60,30 @@ export const store = new Vuex.Store({
 			let lastInitial = state.lastname.split("")[0]
 			return firstInitial + lastInitial
 		},
+		UnreadPosts:state => {
+			return state.unreadPosts = state.posts.filter(post => !state.postsVisited.includes(post._id)).length
+		},
+		GetPosts:state => {
+			let sorted = state.posts.sort(this.sortByDate)
+			state.sortedPosts = sorted
+			return state.sortedPosts
+			// return state.sortedPosts = state.posts.sort(this.sortByDate)
+		}
 	},
 	actions:{
+		sortByDate(a,b){
+			var dateA = new Date(a.date).getTime();
+			var dateB = new Date(b.date).getTime();
+			return dateA > dateB ? -1 : 1
+		},
+		itsVisited(context, data){
+			const itsVisited = JSON.parse(localStorage.getItem('postsVisited')) || [];
+			if (!itsVisited.includes(data.id)) {
+				itsVisited.push(data.id)
+				context.commit('postsVisited', itsVisited)
+				localStorage.setItem('postsVisited', JSON.stringify(itsVisited));	
+			}
+		},
 		register(context,data){
 			return new Promise((resolve,reject)=>{
 				axios.post('http://localhost:3000/auth/signup', {
@@ -81,6 +112,7 @@ export const store = new Vuex.Store({
 				axios.post('http://localhost:3000/post',formData)
 				.then(response => {
 					resolve(response)
+					this.retrievePosts()
 				})
 				.catch(error =>{
 					reject(error)
@@ -98,6 +130,7 @@ export const store = new Vuex.Store({
 				})
 				.then(response => {
 					resolve(response)
+					this.retrievePosts()
 				})
 				.catch(error => {
 					console.log(error.response)
@@ -118,6 +151,8 @@ export const store = new Vuex.Store({
 			return new Promise((resolve,reject)=>{
 				axios.get('http://localhost:3000/post')
 				.then(response => {
+					const posts = response.data
+					context.commit('retrievePosts' , posts)
 					resolve(response)
 				})
 				.catch(error=>{

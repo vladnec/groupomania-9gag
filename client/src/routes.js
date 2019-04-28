@@ -36,6 +36,9 @@ export const routes = [
 		name:'user',
 		props:true,
 		component:User,
+		meta:{
+			requiresAuth:true
+		}
 	},
 	{
 		path:'/user/delete',
