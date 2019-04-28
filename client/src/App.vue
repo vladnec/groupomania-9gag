@@ -282,8 +282,11 @@ textarea {
   		font-weight:bold;
   		color:#ff2c74;
   	}
-	.abs {
-		/*font-size:30px;*/
+	.navbar {
+		min-height:74px;
+	}
+	.justify-content-center{
+		margin-top:60px;
 	}
 
 

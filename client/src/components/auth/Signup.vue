@@ -145,5 +145,10 @@
 	}
 </script>
 <style>
-
+	form {
+		margin:20px 10px;
+	}
+	input {
+		min-width:250px;
+	}
 </style>

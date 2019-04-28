@@ -34,7 +34,7 @@
       </div>
   </nav> 
     </div> -->
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
     <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
 
     </div>
@@ -71,7 +71,7 @@
                         <a>{{ profileName }}</a>
                     </li>
                     <li class="nav-item">
-                      <button type="button" class="publish" data-toggle="modal" data-target="#exampleModal">Publish</button>          
+                      <button type="button" class="publish" data-toggle="modal" data-target="#exampleModal" data-backdrop="static" data-keyboard="false">Publish</button>  
                     </li>
         </ul>
     </div>
@@ -256,6 +256,9 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
         serverError:'',
         file:'',      
       }
+    },
+    created(){
+      this.unreadPosts()
     },
     computed: {
       unreadPosts(){

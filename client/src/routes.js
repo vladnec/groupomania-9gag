@@ -1,5 +1,6 @@
 import Login from './components/auth/Login.vue'
 import Signup from './components/auth/Signup.vue'
+import Logout from './components/auth/Logout.vue'
 import DeleteUser from './components/auth/DeleteUser.vue'
 import User from './components/User.vue'
 import Home from './components/Home.vue'
@@ -35,6 +36,7 @@ export const routes = [
 		path:'/user/',
 		name:'user',
 		component:User,
+		props:true,
 		meta:{
 			requiresAuth:true
 		}
@@ -46,7 +48,16 @@ export const routes = [
 		meta:{
 			requiresAuth: true
 		}
-	},{
+	},
+		{
+		path:'/user/logout',
+		name:'logout',
+		component:Logout,
+		meta:{
+			requiresAuth: true
+		}
+	},
+	{
 		path:'/post/:id',
 		name:'post',
 		component:Post,

@@ -94,6 +94,9 @@
 
 </script>
 <style scoped>
+	.justify-content-center{
+		margin-top:60px;
+	}
 	form {
 		margin:20px 10px;
 	}

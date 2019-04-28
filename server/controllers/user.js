@@ -63,6 +63,12 @@ exports.signup = (req,res,next) => {
 	);
 };
 
+exports.logout = (req,res,next) => {
+	res.status(200).json({
+		message:('User logged out!')
+	});
+};
+
 exports.login = (req,res,next) =>{
 	User.findOne({email: req.body.email}).then(
 		(user) =>{

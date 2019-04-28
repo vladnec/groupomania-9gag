@@ -24,6 +24,12 @@ const router = new VueRouter({
 	routes	
 })
 
+
+VueRouter.prototype.open = function (routeObject) {
+  const {href} = this.resolve(routeObject)
+  window.open(href, '_blank')
+}
+
 router.beforeEach((to,from,next) => {
 	if(to.matched.some(record=> record.meta.requiresAuth)){
 		if(localStorage.getItem('token') == null){

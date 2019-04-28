@@ -66,9 +66,13 @@
 		},
 		methods: {
 			sortByDate(a,b){
-				var dateA = new Date(a.date).getTime();
-				var dateB = new Date(b.date).getTime();
-				return dateA > dateB ? -1 : 1
+			var dateA = new Date(a.date).getTime();
+		    var dateB = new Date(b.date).getTime();
+				if (navigator.userAgent.indexOf("Firefox") > 0) {
+	   			 	return dateA > dateB ? -1 : 1;  
+				} else {
+	    			return dateA > dateB ? 1 : -1;  
+				}
 			},
 			itsImage : function(string) {
 				let image = string.split('.')[1]
@@ -84,7 +88,7 @@
 					_id : id
 				})
 				.then(response => {
-					this.$router.push({name:'post' , params:{id:id}});
+					this.$router.open({name:'post', params:{id:id}});
 				})
 			}
 		},
@@ -103,6 +107,10 @@
 	}
 </script>
 <style scoped>
+
+#app {
+	margin-top:40px;
+}
 
 .post {
 	cursor:pointer;

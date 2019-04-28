@@ -64,18 +64,10 @@ export const store = new Vuex.Store({
 			return state.unreadPosts = state.posts.filter(post => !state.postsVisited.includes(post._id)).length
 		},
 		GetPosts:state => {
-			let sorted = state.posts.sort(this.sortByDate)
-			state.sortedPosts = sorted
-			return state.sortedPosts
-			// return state.sortedPosts = state.posts.sort(this.sortByDate)
+			return state.sortedPosts = state.posts
 		}
 	},
 	actions:{
-		sortByDate(a,b){
-			var dateA = new Date(a.date).getTime();
-			var dateB = new Date(b.date).getTime();
-			return dateA > dateB ? -1 : 1
-		},
 		itsVisited(context, data){
 			const itsVisited = JSON.parse(localStorage.getItem('postsVisited')) || [];
 			if (!itsVisited.includes(data.id)) {
@@ -180,8 +172,28 @@ export const store = new Vuex.Store({
 		deleteAccount(context){
 			if(context.getters.loggedIn) {
 					return new Promise((resolve, reject) => {
-						axios.delete('http://localhost:3000/auth/user/' + this.state.userId,{
+						axios.delete('http://localhost:3000/auth/user/' + this.state.userId)
+					.then(response =>{
+						localStorage.removeItem('token')
+						localStorage.removeItem('userId')
+						context.commit('destroyToken')
+						context.commit('destroyUserId')
+						resolve(response)
 					})
+					.catch(error =>{
+						localStorage.removeItem('token')
+						localStorage.removeItem('userId')
+						context.commit('destroyToken')
+						context.commit('destroyUserId')
+						reject(error)
+					})
+				})		
+			}
+		},
+		logout(context){
+			if(context.getters.loggedIn) {
+					return new Promise((resolve, reject) => {
+						axios.post('http://localhost:3000/auth/logout')
 					.then(response =>{
 						localStorage.removeItem('token')
 						localStorage.removeItem('userId')

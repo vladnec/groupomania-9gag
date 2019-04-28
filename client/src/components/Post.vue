@@ -51,7 +51,10 @@
 		computed:{
 			visitedArray(){
 				return this.$store.state.postsVisited
-			}
+			},
+			unreadPosts(){
+				 return this.$store.getters.UnreadPosts		
+			},
 		},
 		created(){
 			this.getData()
@@ -93,6 +96,9 @@
 </script>
 <style scoped>
 
+#app {
+	margin-top:40px;
+}
 .post {
 	cursor:pointer;
 }

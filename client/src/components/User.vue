@@ -3,6 +3,7 @@
 		<div class="profile big-circle"> {{ initials }}</div>
 		<h6> {{ data.firstname}} {{ data.lastname}} </h6>
 		<h6 class="margin-email"> {{ data.email }} </h6>
+		<button class="btn btn-primary" @click="logout">Logout</button>
 		<button type="button" class="btn btn-danger" @click="confirmationDelete">Delete</button>
 	</div>
 </template>
@@ -46,6 +47,9 @@
 					this.$router.push('/user/')
 				}
 			},
+			logout(){
+				this.$router.push('/user/logout')
+			},
 		}
 	}
 
@@ -65,6 +69,7 @@
 }
 
 .btn-danger {
+	margin-top:10px;
 	background-color:red;
 	opacity:1;
 	color:#fff;
