@@ -34,7 +34,6 @@ export const routes = [
 	{
 		path:'/user/',
 		name:'user',
-		props:true,
 		component:User,
 		meta:{
 			requiresAuth:true

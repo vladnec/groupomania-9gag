@@ -4,7 +4,6 @@
 			<h4>Welcome to Groupomania</h4>
 			<div class="row">
 				<div class="col">
-					<h6 v-if="deletedMessage"> {{ deletedMessage }}</h6>
 					<form  @submit.prevent="validateBeforeSubmit">
 						<div 
 						v-if="serverError"
@@ -59,11 +58,6 @@
 
 	export default {
 		name:'login',
-		props:{
-			deletedMessage:{
-				type:String,
-			}
-		},
 		data(){
 			return {
 				email:'',

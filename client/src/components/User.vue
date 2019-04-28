@@ -3,10 +3,11 @@
 		<div class="profile big-circle"> {{ initials }}</div>
 		<h6> {{ data.firstname}} {{ data.lastname}} </h6>
 		<h6 class="margin-email"> {{ data.email }} </h6>
-		<button type="button" class="btn btn-danger" @click="confirmDelete">Delete</button>
+		<button type="button" class="btn btn-danger" @click="confirmationDelete">Delete</button>
 	</div>
 </template>
 <script>
+	import swal from 'sweetalert';
 	export default {
 		name:'User',
 		computed:{
@@ -18,6 +19,26 @@
 			}
 		},
 		methods:{
+			confirmationDelete(){
+				swal({
+				  title: "Your account will be deleted permanently!",
+				  text: "Are you sure to proceed?",
+				  icon: "warning",
+				  buttons: ["No, I am not sure!", "Yes, Remove My Account!"],
+				  dangerMode: true,
+				})
+				.then((willDelete) => {
+				  if (willDelete) {
+				    swal("Your account is removed permanently!", {
+				      icon: "success",
+				    });
+				    this.$router.push('/user/delete')
+				  } else {
+				    swal("Account is not removed!");
+				    this.$router.push('/user/')
+				  }
+				});
+			},
 			confirmDelete(){
 				if(confirm("Are you sure?")){
 					this.$router.push('/user/delete')
