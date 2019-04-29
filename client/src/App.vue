@@ -219,6 +219,7 @@ textarea {
   		left:20px;
   		width:22px;
   		height:22px;
+      /*height:60px;*/
   		border-radius:50%;
   		background:#ff2c74;
   		color:#fff;
@@ -231,14 +232,17 @@ textarea {
   		background:transparent;
   		color:#fff;
   		font-size:18px;
-  		bottom:15px;
   		width:150px;
-  		
+      line-height:40px;	
   	}
+    .notifications:hover .num:after{
+      content:' Notification';
+    }
+
   	.listNotifications{
   		position: relative;
   		right:15px;
-  		top:-3px;
+  		top:-25px;
   		margin:0;
   		padding:20px;
   		width:300px;
@@ -252,7 +256,10 @@ textarea {
   	}
   	.notifications:hover .listNotifications {
   		display:block;
+      height:80px;
+      position:relative;
   	}
+
   	.listNotifications li {
   		list-style:none;
   		border-bottom:1px solid rgba(0,0,0,.1);
@@ -304,18 +311,19 @@ textarea {
 			margin-left:0;
 		}
 		.notifications:hover {
-			width:100px;
+      height:80px;
+			width:60px;
 			border-radius:0;
 		}
-		.listNotifications {
-			/*width:100px;*/
-			position:absolute;
-			top:55px;
-			left:100px;
-			background:#ff2c74;
-			width:300px;
-			height:50px;
-			line-height: 50px;
+
+    .listNotifications {
+      margin:0;
+      padding:0;
+      background-color:#ff2c74 ;
+			top:-50px;
+			left:45px;
+      height:0;
+      border:none;
 			border-radius:0;
 			box-shadow: none;
 		}
@@ -324,19 +332,29 @@ textarea {
 		}
 		.icon {
 			color:#fff;
-			position:absolute;
-			bottom:10px;
-			left:10px;
 		}
 		.text {
 			position:absolute;
-			top:2px;
+			top:15px;
 			left:50px;
 		}
 		.listNotifications li:hover .text {
   			font-weight:bold;
   			color:#fff;
-  		}
+		}
+    .notifications:hover .num {
+      display:none;
+    }
+    .notifications:hover .num:after{
+      content:'';
+    }
+    .none {
+      display:none;
+      height:50px;
+    }
+    .none:hover{
+      display:none;
+    }
 }
 
 
