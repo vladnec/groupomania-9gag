@@ -138,6 +138,8 @@
 
 textarea {
 	width:100%;
+	white-space:pre-line;
+	white-space:pre-wrap;
 	resize:none;
 }
 	.length {
@@ -209,6 +211,7 @@ textarea {
   		color:#fff;
   		position:relative;
   		top:10px;
+  		height:50px;
   	}
   	.notifications .num {
   		position:relative;
@@ -231,9 +234,6 @@ textarea {
   		bottom:15px;
   		width:150px;
   		
-  	}
-  	.notifications:hover .num:after{
-  		content:' Notification';
   	}
   	.listNotifications{
   		position: relative;
@@ -297,12 +297,46 @@ textarea {
 
 @media only screen and (max-width: 900px) {
 
-
-	.notifications:hover{
-		display:none;
-	}	.listNotifications {
-		display:none;
-	}
+		.notificationBell {
+			margin-left:5px;
+		}
+		.publish {
+			margin-left:0;
+		}
+		.notifications:hover {
+			width:100px;
+			border-radius:0;
+		}
+		.listNotifications {
+			/*width:100px;*/
+			position:absolute;
+			top:55px;
+			left:100px;
+			background:#ff2c74;
+			width:300px;
+			height:50px;
+			line-height: 50px;
+			border-radius:0;
+			box-shadow: none;
+		}
+		.listNotifications .nav-item {
+			color:#fff;
+		}
+		.icon {
+			color:#fff;
+			position:absolute;
+			bottom:10px;
+			left:10px;
+		}
+		.text {
+			position:absolute;
+			top:2px;
+			left:50px;
+		}
+		.listNotifications li:hover .text {
+  			font-weight:bold;
+  			color:#fff;
+  		}
 }
 
 

@@ -15,6 +15,7 @@
 				<div class="row">
 
 					<div 
+					:class="{visited : itsVisited(post._id, post.userId)}"
 					class="post-title"> {{ post.title}}</div>
 				</div>
 				<div class="row">
@@ -51,18 +52,21 @@
 					  "pjpeg",  
 					  "jfif",
 				],
+				postsVisited : this.$store.state.postsVisited,
+				postsNotVisited: this.$store.state.postsNotVisited,
+				userId: this.$store.state.userId,
 			}
 		},
 		created(){
-			this.getData()			
+			this.getData()
 		},
 		computed:{
 			unreadPosts(){
-				 return this.$store.getters.UnreadPosts		
+				 return this.$store.getters.UnreadPosts.length	
 			},
 			getPosts(){
 				return this.$store.getters.GetPosts.sort(this.sortByDate)
-			}
+			},
 		},
 		methods: {
 			sortByDate(a,b){
@@ -88,10 +92,21 @@
 					_id : id
 				})
 				.then(response => {
-					this.$router.open({name:'post', params:{id:id}});
+					this.$router.push({name:'post', params:{id:id}});
 				})
+			},
+			itsVisited(id, userId){
+				let visited = this.postsVisited
+				if(visited.includes(id) && userId !== this.userId){
+					return true
+				} else {
+					return false
+				}
+			},
+			console(){
+				console.log(this.postsNotVisited)	
 			}
-		},
+		}, 
 		filters: {
 			subStr: function(string){
 				if(string.length > 1000) {
@@ -149,6 +164,10 @@
  .w-75 {
  	max-width:600px;
  	max-height:600px;
+ }
+
+ .visited {
+ 	color:#9F9F9F;
  }
 
 </style>

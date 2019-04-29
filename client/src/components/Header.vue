@@ -1,39 +1,5 @@
 <template>
   <div>
-<!--     <div class="container">
-        <nav class="navbar navbar-expand navbar-dark bg-dark">
-      <div class="navbar-nav">
-          <router-link :to="{name:'home'}" class="abs" href="#"><img src="../assets/icon-left-font-monochrome-white.png" width="140px" height="24px"></router-link>
-      </div>
-      <div 
-      class="ml-auto"
-      v-if="loggedIn">
-          <ul class="nav ml-auto">
-              <li 
-              class="notifications">
-                <i class="fas fa-bell"></i>
-                <div
-                v-if="unreadPosts" 
-                class="num">{{ unreadPosts}}</div>
-                <ul 
-                v-bind:class="{listNotifications : unreadPosts, noNotification : !unreadPosts}"
-                >
-                  <li>
-                    <span class="icon"><i class="fas fa-user"></i></span>
-                    <router-link :to="{name:'home'}" tag="span" class="text">You have {{ unreadPosts }} unread posts.</router-link>
-                  </li>
-                </ul>
-              </li>
-              <li @click="retrieveProfileId" class="logo profile">
-                  <a>{{ profileName }}</a>
-              </li>
-              <li>
-                <button type="button" class="publish" data-toggle="modal" data-target="#exampleModal">Publish</button>          
-              </li>
-          </ul>
-      </div>
-  </nav> 
-    </div> -->
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
     <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
 
@@ -375,6 +341,11 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
 
 </script>
 <style scoped>
+  
+  textarea {
+    white-space:pre-line;
+    white-space:pre-wrap;
+  }
 
   .logo-header {
     height: 40px;

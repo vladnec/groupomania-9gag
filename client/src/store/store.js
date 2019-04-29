@@ -61,7 +61,9 @@ export const store = new Vuex.Store({
 			return firstInitial + lastInitial
 		},
 		UnreadPosts:state => {
-			return state.unreadPosts = state.posts.filter(post => !state.postsVisited.includes(post._id)).length
+			let arr = state.posts.filter(post => !state.postsVisited.includes(post._id))
+			let userId = localStorage.getItem('userId')
+			return state.unreadPosts = arr.filter(post => post.userId !== userId).length
 		},
 		GetPosts:state => {
 			return state.sortedPosts = state.posts

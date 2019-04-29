@@ -3,7 +3,7 @@
 		<div class="profile big-circle"> {{ initials }}</div>
 		<h6> {{ data.firstname}} {{ data.lastname}} </h6>
 		<h6 class="margin-email"> {{ data.email }} </h6>
-		<button class="btn btn-primary" @click="logout">Logout</button>
+		<button class="btn btn-primary" @click="confirmationLogout">Logout</button>
 		<button type="button" class="btn btn-danger" @click="confirmationDelete">Delete</button>
 	</div>
 </template>
@@ -16,7 +16,7 @@
 				return this.$store.state
 			},
 			initials(){
-				return this.$store.getters.profileName
+				return this.$store.getters.profileName.toUpperCase();
 			}
 		},
 		methods:{
@@ -36,6 +36,23 @@
 				    this.$router.push('/user/delete')
 				  } else {
 				    swal("Account is not removed!");
+				    this.$router.push('/user/')
+				  }
+				});
+			},
+			confirmationLogout(){
+				swal({
+				  title: "You are sure you want to logout?",
+				  buttons: ["No, I am not sure!", "Yes, Logout!"],
+				  dangerMode: true,
+				})
+				.then((willLogout) => {
+				  if (willLogout) {
+				    swal("Succesfully logged out!", {
+				      icon: "success",
+				    });
+				    this.$router.push('/user/logout')
+				  } else {
 				    this.$router.push('/user/')
 				  }
 				});
