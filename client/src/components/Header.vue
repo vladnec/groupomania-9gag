@@ -87,6 +87,7 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
             </div>
               <div class="col choose">
                 <label for="file" class="custom-multimedia-upload">
+                  <small v-if="file">{{ file.name }}</small>
                   <i class="fas fa-image"></i>
                   <p>Choose files..</p>
                 </label> 
@@ -315,6 +316,7 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
         })
       },
       postWritten(){
+        this.serverError = ''
         this.$store.dispatch('writtenPost', {
           title:this.currentLength,
           content:this.contentCurrentLength,

@@ -192,7 +192,7 @@ textarea {
   		box-shadow: 0 2px 5px rgba(0,0,0,.2);
   	}
   	.notifications:hover {
-  		width:300px;
+  		width:250px;
   		height:50px;
   		text-align: left;
   		padding:0 15px;
@@ -219,7 +219,6 @@ textarea {
   		left:20px;
   		width:22px;
   		height:22px;
-      /*height:60px;*/
   		border-radius:50%;
   		background:#ff2c74;
   		color:#fff;
@@ -228,15 +227,18 @@ textarea {
   		text-align: center;
   	}
   	.notifications:hover .num{
+      /*display:none;*/
+      /*font-size:1px;*/
   		position:relative;
   		background:transparent;
   		color:#fff;
-  		font-size:18px;
+  		font-size:0px;
   		width:150px;
       line-height:40px;	
   	}
     .notifications:hover .num:after{
-      content:' Notification';
+      content:' Notifications';
+      font-size:18px;
     }
 
   	.listNotifications{
@@ -245,7 +247,7 @@ textarea {
   		top:-25px;
   		margin:0;
   		padding:20px;
-  		width:300px;
+  		width:250px;
   		background:#fff;
   		box-shadow:0 5px 15px rgba(0,0,0,.5);
   		box-sizing:border-box;
@@ -302,7 +304,7 @@ textarea {
 
 
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 767px) {
 
 		.notificationBell {
 			margin-left:5px;
