@@ -46,6 +46,7 @@ router.beforeEach((to,from,next) => {
 	}
 })
 
+
 new Vue({
   el: '#app',
   store,

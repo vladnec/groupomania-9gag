@@ -35,9 +35,6 @@
 	    width:300px;
 
 	}
-	input{
-		outline:none;
-	}
 	.btn {
 		width:80px;
 		height:30px;
@@ -174,9 +171,6 @@ textarea {
     z-index:1;
     cursor:pointer;
   }
-  	.noNotification {
-  		display:none;
-  	}
   	.notifications {
   		z-index:1;
   		cursor:pointer;
@@ -192,12 +186,11 @@ textarea {
   		box-shadow: 0 2px 5px rgba(0,0,0,.2);
   	}
   	.notifications:hover {
-  		width:250px;
+  		width:260px;
   		height:50px;
   		text-align: left;
   		padding:0 15px;
   		background:#ff2c74;
-  		/*transform:translateY(100%);*/
   		border-bottom-left-radius:0;
   		border-bottom-right-radius:0;
 
@@ -227,8 +220,6 @@ textarea {
   		text-align: center;
   	}
   	.notifications:hover .num{
-      /*display:none;*/
-      /*font-size:1px;*/
   		position:relative;
   		background:transparent;
   		color:#fff;
@@ -247,7 +238,7 @@ textarea {
   		top:-25px;
   		margin:0;
   		padding:20px;
-  		width:250px;
+  		width:260px;
   		background:#fff;
   		box-shadow:0 5px 15px rgba(0,0,0,.5);
   		box-sizing:border-box;
@@ -280,7 +271,6 @@ textarea {
   	.listNotifications li .icon .fa-user {
   		color:#fff;
   		line-height: 24px;
-  		/*font-size:14px;*/
   	}
   	.listNotifications li .text {
   		font-family:sans-serif;
@@ -349,13 +339,6 @@ textarea {
     }
     .notifications:hover .num:after{
       content:'';
-    }
-    .none {
-      display:none;
-      height:50px;
-    }
-    .none:hover{
-      display:none;
     }
 }
 

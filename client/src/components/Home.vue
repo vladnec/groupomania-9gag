@@ -39,7 +39,6 @@
 </template>
 
 <script>
-
 	export default {
 		name: 'home',
 		data(){
@@ -68,6 +67,9 @@
 				return this.$store.getters.GetPosts.sort(this.sortByDate)
 			},
 		},
+		watch:{
+			unreadPosts : 'unreadPosts'
+		},
 		methods: {
 			sortByDate(a,b){
 			var dateA = new Date(a.date).getTime();
@@ -78,21 +80,25 @@
 	    			return dateA > dateB ? 1 : -1;  
 				}
 			},
+			getData(){
+				this.$store.dispatch('retrievePosts')
+			},
 			itsImage : function(string) {
 				let image = string.split('.')[1]
 				if(this.imageType.includes(image)){
 					return true
 				}
 			},
-			getData(){
-				this.$store.dispatch('retrievePosts')
-			},
 			getDetails(id){
 				this.$store.dispatch('retrieveOnePost', {
 					_id : id
 				})
 				.then(response => {
-					this.$router.push({name:'post', params:{id:id}});
+					let routeData = this.$router.resolve({name:'post', params:{id:id}});
+					window.open(routeData.href, '_blank');
+					this.$store.dispatch('itsVisited', {
+						id:this.id
+					})
 				})
 			},
 			itsVisited(id, userId){
@@ -103,9 +109,6 @@
 					return false
 				}
 			},
-			console(){
-				console.log(this.postsNotVisited)	
-			}
 		}, 
 		filters: {
 			subStr: function(string){

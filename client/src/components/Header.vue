@@ -18,9 +18,8 @@
           class="notifications nav-item">
             <i class="fas fa-bell"></i>
             <div
-            v-if="unreadPosts" 
+            :class="{zero: unreadPosts < 1 }"
             class="num">{{ unreadPosts}}</div>
-            <div v-else class="none">0</div>
             <ul class="listNotifications">
               <li>
                 <span class="icon"><i class="fas fa-user"></i></span>
@@ -32,7 +31,7 @@
               <a>{{ profileName }}</a>
           </li>
           <li class="nav-item">
-            <button type="button" class="publish" data-toggle="modal" data-target="#exampleModal" data-backdrop="static" data-keyboard="false">Publish</button>  
+            <button type="button" class="publish" data-toggle="modal" data-target="#Modal" data-backdrop="static" data-keyboard="false">Publish</button>  
           </li>
         </ul>
     </div>
@@ -41,7 +40,7 @@
 
 
 <div 
-class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
 
@@ -220,7 +219,8 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
       }
     },
     created(){
-      this.unreadPosts()
+      this.$store.dispatch('retrievePosts')
+      this.$store.dispatch('retrieveName')
     },
     computed: {
       unreadPosts(){
@@ -245,9 +245,6 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
         return this.$store.state.userId
       }
     },
-    created(){
-      this.$store.dispatch('retrieveName')
-    },
     methods:{
       selectFile(){
         this.file = this.$refs.file.files[0];
@@ -267,7 +264,7 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
         this.text = true;
       },
       closeModal(){
-        $('#exampleModal').modal('hide')
+        $('#Modal').modal('hide')
         this.notChosen = true,
         this.multimedia = false,
         this.text = false,
@@ -352,6 +349,10 @@ class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby
     
   a {
     color:#fff;
+  }
+  .zero {
+    font-size:0px;
+    background:transparent;
   }
 
 </style>

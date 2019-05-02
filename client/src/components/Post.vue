@@ -3,7 +3,7 @@
 			<div class="container">
 				<div class="row">
 					<span class="post-author-initials logo profile">
-						{{post.author_firstname | initials}}{{post.author_lastname | initials}} 
+						{{initials}} 
 					</span>
 					<span class="post-author">{{post.author_firstname}} {{post.author_lastname }}</span>
 				</div>
@@ -13,15 +13,14 @@
 				</div>
 				<div class="row">
 					<div 
-						v-if="post.content"
+						v-if="itsContent"
 						class="post-content">
 						{{post.content}}
 					</div>
 					<div
-
 						v-else
-						class="post-image">	
-						<div v-if="itsImage(post.imageUrl)"><img class="w-100" :src="post.imageUrl"></div>
+						class="post-image">
+						<div v-if="itsImage"><img class="w-100" :src="post.imageUrl"></div>
 						<div v-else><video controls :src="post.imageUrl"></video></div>	
 					</div>
 				</div>
@@ -46,15 +45,10 @@
 					  "pjpeg",  
 					  "jfif",
 				],
+				initials:'',
+				itsContent:false,
+				itsImage:false,
 			}
-		},
-		computed:{
-			visitedArray(){
-				return this.$store.state.postsVisited
-			},
-			unreadPosts(){
-				 return this.$store.getters.UnreadPosts		
-			},
 		},
 		created(){
 			this.getData()
@@ -72,24 +66,31 @@
 				})
 				.then(response => {
 					this.post = response.data
+					this.makeInitials(this.post.author_lastname, this.post.author_firstname)
+					this.checkForImage(this.post.content, this.post.imageUrl)
 				})
-			},
-			itsImage : function(string) {
-				let image = string.split('.')[1]
-				if(this.imageType.includes(image)){
-					return true
-				}
 			},
 			itsVisited(){
 				this.$store.dispatch('itsVisited', {
 					id:this.id
 				})
-			}
-		},
-		filters: {
-			initials: function(string){
-				return string.split('')[0].toUpperCase()
 			},
+			makeInitials(first, last){
+				let fn = first.split('')[0].toUpperCase()
+				let ln = last.split('')[0].toUpperCase()
+				return this.initials = ln + fn 
+			},
+			checkForImage(content, imageUrl) {
+				if (content){
+					return this.itsContent = true
+				} else {
+					
+					let image = imageUrl.split('.')[1]
+					if(this.imageType.includes(image)){
+						return this.itsImage = true
+					}
+				}
+			}
 		},
 
 	}
