@@ -44,7 +44,8 @@ exports.signup = (req,res,next) => {
 				email: req.body.email,
 				firstname: req.body.firstname,
 				lastname: req.body.lastname,
-				password:hash
+				password:hash,
+				created_at:Date.now(),
 			});
 			user.save().then(
 				() => {

@@ -67,9 +67,6 @@
 				return this.$store.getters.GetPosts.sort(this.sortByDate)
 			},
 		},
-		watch:{
-			unreadPosts : 'unreadPosts'
-		},
 		methods: {
 			sortByDate(a,b){
 			var dateA = new Date(a.date).getTime();

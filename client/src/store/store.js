@@ -17,6 +17,7 @@ export const store = new Vuex.Store({
 		unreadPosts:'',
 		sortedPosts:'',
 		posts:[],
+		createdAt:'',
 		postsVisited: JSON.parse(localStorage.getItem('postsVisited')) || [],
 	},
 	mutations:{
@@ -49,6 +50,9 @@ export const store = new Vuex.Store({
 		},
 		postsVisited(state, postsVisited){
 			state.postsVisited = postsVisited
+		},
+		createdAt(state,createdAt){
+			state.createdAt = createdAt
 		}
 	},
 	getters:{
@@ -62,12 +66,13 @@ export const store = new Vuex.Store({
 		},
 		UnreadPosts:state => {
 			let arr = state.posts.filter(post => !state.postsVisited.includes(post._id))
+			let arr2 = arr.filter(post => post.created_at > state.createdAt)
 			let userId = localStorage.getItem('userId')
-			return state.unreadPosts = arr.filter(post => post.userId !== userId).length
+			return state.unreadPosts = arr2.filter(post => post.userId !== userId).length
 		},
 		GetPosts:state => {
 			return state.sortedPosts = state.posts
-		}
+		},
 	},
 	actions:{
 		itsVisited(context, data){
@@ -161,9 +166,11 @@ export const store = new Vuex.Store({
 					const firstname = response.data.firstname
 					const lastname = response.data.lastname
 					const email = response.data.email
+					const createdAt = response.data.created_at
 					context.commit('retrieveFirstName', firstname)
 					context.commit('retrieveLastName', lastname)
 					context.commit('retrieveEmail', email)
+					context.commit('createdAt', createdAt)
 					resolve(response)
 				})
 				.catch(error => {

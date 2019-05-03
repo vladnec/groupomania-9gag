@@ -215,7 +215,7 @@ class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="Modal
         currentLength:'',
         contentCurrentLength:'',
         serverError:'',
-        file:'',      
+        file:'',   
       }
     },
     created(){
